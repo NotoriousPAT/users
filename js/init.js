@@ -6,6 +6,6 @@ $(function () {
   // Initialize application properties
   app.users = new app.ObjectStore();
 
-  // Kick off our initial route
-  Backbone.history.loadUrl();
+  // Tell backbone to process the current route
+  Backbone.history.start();
 });

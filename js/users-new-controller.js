@@ -15,7 +15,8 @@ app.router.route('users/new', function () {
 
     app.users.add(user);
 
-    document.location = '#users';
+    // The backbone alternative to document.location = '#users';
+    Backbone.history.navigate('users', { trigger: true });
 
   });
 

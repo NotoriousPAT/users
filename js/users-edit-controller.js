@@ -19,7 +19,8 @@ app.router.route('users/:id', function (id) {
     user.name = editedUser.name;
     user.email = editedUser.email;
 
-    document.location = '#users';
+    // The backbone alternative to document.location = '#users';
+    Backbone.history.navigate('users', { trigger: true });
 
   });
 
