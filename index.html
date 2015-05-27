@@ -9,26 +9,69 @@
   </head>
   <body>
     <main class="main-content">
+    </main>
+
+    <script id="user-edit" type="text/html">
       <header class="page-header">
-        <a class="primary-action" href="#">+</a>
+        <a class="secondary-action" href="#users">&larr;</a>
+        <h1 class="page-title">Users</h1>
+      </header>
+
+      <form class="user-form">
+        <input name="id" placeholder="user id" value="<%- m.id %>">
+        <input name="name" placeholder="user name" value="<%- m.name %>">
+        <input name="email" placeholder="user email" value="<%- m.email %>">
+
+        <button>Save</button>
+      </form>
+    </script>
+
+    <script id="user-new" type="text/html">
+      <header class="page-header">
+        <a class="secondary-action" href="#users">&larr;</a>
+        <h1 class="page-title">Users</h1>
+      </header>
+
+      <form class="user-form">
+        <input name="id" placeholder="user id">
+        <input name="name" placeholder="user name">
+        <input name="email" placeholder="user email">
+
+        <button>Save</button>
+      </form>
+    </script>
+
+    <script id="user-list" type="text/html">
+      <header class="page-header">
+        <a class="primary-action" href="#users/new">+</a>
         <h1 class="page-title">Users</h1>
       </header>
 
       <ul class="user-list">
+        <% m.users.forEach(function (user) { %>
         <li class="user">
-          <span class="user-name">Sally Sallyfield</span>
-          <span class="user-email">sally@sally.com</span>
+          <a href="#users/<%- user.id %>">
+            <span class="user-name"><%- user.name %></span>
+            <span class="user-email"><%- user.email %></span>
+          </a>
         </li>
-        <li class="user">
-          <span class="user-name">Sally Sallyfield</span>
-          <span class="user-email">sally@sally.com</span>
-        </li>
-        <li class="user">
-          <span class="user-name">Sally Sallyfield</span>
-          <span class="user-email">sally@sally.com</span>
-        </li>
+        <% }) %>
       </ul>
+    </script>
 
-    </main>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/backbone/backbone-min.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/show.js"></script>
+    <script src="js/user.js"></script>
+    <script src="js/object-store.js"></script>
+    <script src="js/users-controller.js"></script>
+    <script src="js/users-edit-controller.js"></script>
+    <script src="js/users-new-controller.js"></script>
+    <script src="js/init.js"></script>
+
   </body>
 </html>

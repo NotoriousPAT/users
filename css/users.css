@@ -22,3 +22,16 @@
 .user-list {
   padding: 1em;
 }
+
+.user {
+  padding: 0.5em;
+}
+
+.user + .user {
+  border-top: 1px solid #DDD;
+}
+
+.user-email {
+  display: block;
+  font-style: italic;
+}
