@@ -15,8 +15,12 @@ app.router.route('users/:id', function (id) {
   });
 
   // Bind our events
-  app.bindUserForm(function (user) {
-    app.users.update(id, user);
+  $('.user-form').on('submit', function (e) {
+    e.preventDefault();
+
+    app.users.update(id, new app.User(app.serializeForm(this)));
+
+    app.goto('users');
   });
 
   $('.delete-user').click(function () {

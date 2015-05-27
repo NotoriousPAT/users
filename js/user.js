@@ -1,5 +1,7 @@
-app.User = function (id, name, email) {
-  this.id = id;
-  this.name = name;
-  this.email = email;
+app.User = function (spec) {
+  spec = spec || {};
+  
+  this.id = spec.id;
+  this.name = spec.name;
+  this.email = spec.email;
 };
