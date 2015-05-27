@@ -15,6 +15,8 @@ app.router.route('users/:id', function (id) {
   });
 
   // Bind our events
+  $('.user-form').parsley();
+  
   $('.user-form').on('submit', function (e) {
     e.preventDefault();
 

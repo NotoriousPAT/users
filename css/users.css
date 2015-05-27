@@ -92,10 +92,22 @@
     opacity: 0.65;
   }
 
+.stack-form .form-field {
+  margin-bottom: 1em;
+}
+
 .stack-form .btn,
 .stack-form input {
   width: 100%;
   box-sizing: border-box;
   display: block;
-  margin-bottom: 1em;
+}
+
+input.parsley-error {
+  border-color: #f48d06;
+  background: #ffdfb5;
+}
+
+.parsley-errors-list.filled {
+  color: #f48d06;
 }

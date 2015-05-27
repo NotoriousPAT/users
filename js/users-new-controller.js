@@ -4,6 +4,8 @@ app.router.route('users/new', function () {
   app.show('user-edit', { user: new app.User(), title: 'New User' });
 
   // Bind our events
+  $('.user-form').parsley();
+  
   $('.user-form').on('submit', function (e) {
     e.preventDefault();
 
