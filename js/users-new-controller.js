@@ -1,23 +1,11 @@
 app.router.route('users/new', function () {
 
   // Render the view
-  app.show('user-new');
+  app.show('user-edit', { user: new app.User(), title: 'New User' });
 
   // Bind our events
-  $('.user-form').on('submit', function (e) {
-    e.preventDefault();
-
-    var user = new app.User(
-      $('input[name=id]').val(),
-      $('input[name=name]').val(),
-      $('input[name=email]').val()
-    );
-
+  app.bindUserForm(function (user) {
     app.users.add(user);
-
-    // The backbone alternative to document.location = '#users';
-    Backbone.history.navigate('users', { trigger: true });
-
   });
 
 });

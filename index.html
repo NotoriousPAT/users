@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Users</title>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/defaults.css">
@@ -13,49 +14,42 @@
 
     <script id="user-edit" type="text/html">
       <header class="page-header">
-        <a class="secondary-action" href="#users">&larr;</a>
-        <h1 class="page-title">Users</h1>
+        <a class="secondary-action page-action" href="#users">&larr;</a>
+        <h1 class="page-title"><%- m.title %></h1>
       </header>
 
-      <form class="user-form">
-        <input name="id" placeholder="user id" value="<%- m.id %>">
-        <input name="name" placeholder="user name" value="<%- m.name %>">
-        <input name="email" placeholder="user email" value="<%- m.email %>">
+      <form class="user-form stack-form page-content">
+        <input name="id" type="text" placeholder="user id" value="<%- m.user.id %>" autofocus>
+        <input name="name" type="text" placeholder="user name" value="<%- m.user.name %>">
+        <input name="email" type="email" placeholder="user email" value="<%- m.user.email %>">
 
-        <button>Save</button>
+        <button class="btn btn-primary">Save</button>
+        
+        <% if (m.isDeletable) { %>
+          <button class="delete-user btn btn-warning" type="button">Delete</button>
+        <% } %>
       </form>
     </script>
 
     <script id="404" type="text/html">
-      <h1>404 not found</h1>
-      <p><%- m.url %></p>
-    </script>
-
-    <script id="user-new" type="text/html">
-      <header class="page-header">
-        <a class="secondary-action" href="#users">&larr;</a>
-        <h1 class="page-title">Users</h1>
+      <header clss="page-header">
+        <h1 class="page-title">404 not found</h1>
       </header>
-
-      <form class="user-form">
-        <input name="id" placeholder="user id">
-        <input name="name" placeholder="user name">
-        <input name="email" placeholder="user email">
-
-        <button>Save</button>
-      </form>
+      <div class="page-content stack-form">
+        <a href="#users" class="btn btn-primary">View all users</a>
+      </div>
     </script>
 
     <script id="user-list" type="text/html">
       <header class="page-header">
-        <a class="primary-action" href="#users/new">+</a>
+        <a class="primary-action page-action" href="#users/new">+</a>
         <h1 class="page-title">Users</h1>
       </header>
 
-      <ul class="user-list">
-        <% m.users.forEach(function (user) { %>
+      <ul class="user-list page-content">
+        <% _.chain(m.users.values).sortBy('name').forEach(function (user) { %>
         <li class="user">
-          <a href="#users/<%- user.id %>">
+          <a class="user-link" href="#users/<%- user.id %>">
             <span class="user-name"><%- user.name %></span>
             <span class="user-email"><%- user.email %></span>
           </a>
@@ -72,6 +66,7 @@
     <script src="js/router.js"></script>
     <script src="js/show.js"></script>
     <script src="js/user.js"></script>
+    <script src="js/bind-user-form.js"></script>
     <script src="js/object-store.js"></script>
     <script src="js/users-controller.js"></script>
     <script src="js/users-edit-controller.js"></script>

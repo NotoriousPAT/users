@@ -1,5 +1,18 @@
 body {
+  background: #FAF7F2;
   font-family: sans-serif;
-  padding-top: 7em;
+  padding-top: 6em;
   line-height: 1.5;
+}
+
+input[type=text],
+input[type=email],
+input[type=password] {
+  padding: 0.5em;
+  border: 1px solid #DDD;
+  outline: none;
+}
+
+input, button {
+  font-size: 1em;
 }
