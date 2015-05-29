@@ -16,7 +16,7 @@ define('parsley/abstract', [
       return window.ParsleyValidator.validate(value, constraints, priority);
     },
 
-    // Subscribe an user and a handler for a specific field or a specific form
+    // Subscribe an event and a handler for a specific field or a specific form
     // If on a ParsleyForm instance, it will be attached to form instance and also
     // To every field instance for this form
     subscribe: function (name, fn) {
@@ -25,7 +25,7 @@ define('parsley/abstract', [
       return this;
     },
 
-    // Same as subscribe above. Unsubscribe an user for field, or form + its fields
+    // Same as subscribe above. Unsubscribe an event for field, or form + its fields
     unsubscribe: function (name) {
       $.unsubscribeTo(this, name.toLowerCase());
 
@@ -34,11 +34,11 @@ define('parsley/abstract', [
 
     // Reset UI
     reset: function () {
-      // Field case: just emit a reset user for UI
+      // Field case: just emit a reset event for UI
       if ('ParsleyForm' !== this.__class__)
         return $.emit('parsley:field:reset', this);
 
-      // Form case: emit a reset user for each field
+      // Form case: emit a reset event for each field
       for (var i = 0; i < this.fields.length; i++)
         $.emit('parsley:field:reset', this.fields[i]);
 
@@ -47,7 +47,7 @@ define('parsley/abstract', [
 
     // Destroy Parsley instance (+ UI)
     destroy: function () {
-      // Field case: emit destroy user to clean UI and then destroy stored instance
+      // Field case: emit destroy event to clean UI and then destroy stored instance
       if ('ParsleyForm' !== this.__class__) {
         this.$element.removeData('Parsley');
         this.$element.removeData('ParsleyFieldMultiple');

@@ -240,7 +240,7 @@ define([
   };
 
   // ### ParsleyUI
-  // UI is a class apart that only listen to some users and them modify DOM accordingly
+  // UI is a class apart that only listen to some events and them modify DOM accordingly
   // Could be overriden by defining a `window.ParsleyConfig.ParsleyUI` appropriate class (with `listen()` method basically)
   window.ParsleyUI = 'function' === typeof ParsleyUtils.get(window, 'ParsleyConfig.ParsleyUI') ?
     new window.ParsleyConfig.ParsleyUI().listen() : new ParsleyUI().listen();
@@ -261,7 +261,7 @@ define([
   window.ParsleyValidator = new ParsleyValidator(window.ParsleyConfig.validators, window.ParsleyConfig.i18n);
 
   // ### PARSLEY auto-binding
-  // Pruser it by setting `ParsleyConfig.autoBind` to `false`
+  // Prevent it by setting `ParsleyConfig.autoBind` to `false`
   if (false !== ParsleyUtils.get(window, 'ParsleyConfig.autoBind'))
     $(function () {
       // Works only on `data-parsley-validate`.

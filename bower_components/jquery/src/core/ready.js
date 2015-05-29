@@ -19,10 +19,10 @@ jQuery.extend({
 	isReady: false,
 
 	// A counter to track how many items to wait for before
-	// the ready user fires. See #6781
+	// the ready event fires. See #6781
 	readyWait: 1,
 
-	// Hold (or release) the ready user
+	// Hold (or release) the ready event
 	holdReady: function( hold ) {
 		if ( hold ) {
 			jQuery.readyWait++;
@@ -42,7 +42,7 @@ jQuery.extend({
 		// Remember that the DOM is ready
 		jQuery.isReady = true;
 
-		// If a normal DOM Ready user fired, decrement, and wait if need be
+		// If a normal DOM Ready event fired, decrement, and wait if need be
 		if ( wait !== true && --jQuery.readyWait > 0 ) {
 			return;
 		}
@@ -50,7 +50,7 @@ jQuery.extend({
 		// If there are functions bound, to execute
 		readyList.resolveWith( document, [ jQuery ] );
 
-		// Trigger any bound ready users
+		// Trigger any bound ready events
 		if ( jQuery.fn.triggerHandler ) {
 			jQuery( document ).triggerHandler( "ready" );
 			jQuery( document ).off( "ready" );
@@ -59,7 +59,7 @@ jQuery.extend({
 });
 
 /**
- * The ready user handler and self cleanup method
+ * The ready event handler and self cleanup method
  */
 function completed() {
 	document.removeEventListener( "DOMContentLoaded", completed, false );
@@ -72,7 +72,7 @@ jQuery.ready.promise = function( obj ) {
 
 		readyList = jQuery.Deferred();
 
-		// Catch cases where $(document).ready() is called after the browser user has already occurred.
+		// Catch cases where $(document).ready() is called after the browser event has already occurred.
 		// We once tried to use readyState "interactive" here, but it caused issues like the one
 		// discovered by ChrisS here: http://bugs.jquery.com/ticket/12282#comment:15
 		if ( document.readyState === "complete" ) {
@@ -81,7 +81,7 @@ jQuery.ready.promise = function( obj ) {
 
 		} else {
 
-			// Use the handy user callback
+			// Use the handy event callback
 			document.addEventListener( "DOMContentLoaded", completed, false );
 
 			// A fallback to window.onload, that will always work

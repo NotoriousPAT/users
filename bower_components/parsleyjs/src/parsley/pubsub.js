@@ -71,7 +71,7 @@ define('parsley/pubsub', [
     if ('undefined' === typeof subscribed[name])
       return;
 
-    // loop through registered callbacks for this user
+    // loop through registered callbacks for this event
     for (var i = 0; i < subscribed[name].length; i++) {
       // if instance is not registered, simple emit
       if ('undefined' === typeof subscribed[name][i].instance) {

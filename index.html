@@ -32,7 +32,19 @@
             data-parsley-error-message="Full name is required">
         </div>
         <div class="form-field">
-          <input name="email" type="email" placeholder="event email" value="<%- m.event.email %>" required>
+          <input name="street" type="text" placeholder="street address" value="<%- m.event.street %>" required>
+        </div>
+
+        <div class="form-field">
+          <input name="city" type="text" placeholder="city" value="<%- m.event.city %>" required>
+        </div>
+
+        <div class="form-field">
+          <input name="state" type="text" placeholder="state" value="<%- m.event.state %>" required>
+        </div>
+
+        <div class="form-field">
+          <input name="zip" type="text" placeholder="zip" value="<%- m.event.zip %>" required>
         </div>
 
         <div class="form-field">
@@ -67,7 +79,10 @@
         <li class="event">
           <a class="event-link" href="#event/<%- event.id %>">
             <span class="event-name"><%- event.name %></span>
-            <span class="event-email"><%- event.email %></span>
+            <span class="event-street"><%- event.street %></span>
+            <span class="event-city"><%- event.city %></span>
+            <span class="event-state"><%- event.state %></span>
+            <span class="event-zip"><%- event.zip %></span>
           </a>
         </li>
         <% }) %>

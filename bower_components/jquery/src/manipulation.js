@@ -12,7 +12,7 @@ define([
 	"./data/accepts",
 	"./traversing",
 	"./selector",
-	"./user"
+	"./event"
 ], function( jQuery, concat, push, access, rcheckableType, support, data_priv, data_user ) {
 
 var
@@ -86,26 +86,26 @@ function setGlobalEval( elems, refElements ) {
 	}
 }
 
-function cloneCopyUser( src, dest ) {
-	var i, l, type, pdataOld, pdataCur, udataOld, udataCur, users;
+function cloneCopyEvent( src, dest ) {
+	var i, l, type, pdataOld, pdataCur, udataOld, udataCur, events;
 
 	if ( dest.nodeType !== 1 ) {
 		return;
 	}
 
-	// 1. Copy private data: users, handlers, etc.
+	// 1. Copy private data: events, handlers, etc.
 	if ( data_priv.hasData( src ) ) {
 		pdataOld = data_priv.access( src );
 		pdataCur = data_priv.set( dest, pdataOld );
-		users = pdataOld.users;
+		events = pdataOld.events;
 
-		if ( users ) {
+		if ( events ) {
 			delete pdataCur.handle;
-			pdataCur.users = {};
+			pdataCur.events = {};
 
-			for ( type in users ) {
-				for ( i = 0, l = users[ type ].length; i < l; i++ ) {
-					jQuery.user.add( dest, type, users[ type ][ i ] );
+			for ( type in events ) {
+				for ( i = 0, l = events[ type ].length; i < l; i++ ) {
+					jQuery.event.add( dest, type, events[ type ][ i ] );
 				}
 			}
 		}
@@ -145,7 +145,7 @@ function fixInput( src, dest ) {
 }
 
 jQuery.extend({
-	clone: function( elem, dataAndUsers, deepDataAndUsers ) {
+	clone: function( elem, dataAndEvents, deepDataAndEvents ) {
 		var i, l, srcElements, destElements,
 			clone = elem.cloneNode( true ),
 			inPage = jQuery.contains( elem.ownerDocument, elem );
@@ -163,17 +163,17 @@ jQuery.extend({
 			}
 		}
 
-		// Copy the users from the original to the clone
-		if ( dataAndUsers ) {
-			if ( deepDataAndUsers ) {
+		// Copy the events from the original to the clone
+		if ( dataAndEvents ) {
+			if ( deepDataAndEvents ) {
 				srcElements = srcElements || getAll( elem );
 				destElements = destElements || getAll( clone );
 
 				for ( i = 0, l = srcElements.length; i < l; i++ ) {
-					cloneCopyUser( srcElements[ i ], destElements[ i ] );
+					cloneCopyEvent( srcElements[ i ], destElements[ i ] );
 				}
 			} else {
-				cloneCopyUser( elem, clone );
+				cloneCopyEvent( elem, clone );
 			}
 		}
 
@@ -275,7 +275,7 @@ jQuery.extend({
 
 	cleanData: function( elems ) {
 		var data, elem, type, key,
-			special = jQuery.user.special,
+			special = jQuery.event.special,
 			i = 0;
 
 		for ( ; (elem = elems[ i ]) !== undefined; i++ ) {
@@ -283,14 +283,14 @@ jQuery.extend({
 				key = elem[ data_priv.expando ];
 
 				if ( key && (data = data_priv.cache[ key ]) ) {
-					if ( data.users ) {
-						for ( type in data.users ) {
+					if ( data.events ) {
+						for ( type in data.events ) {
 							if ( special[ type ] ) {
-								jQuery.user.remove( elem, type );
+								jQuery.event.remove( elem, type );
 
-							// This is a shortcut to avoid jQuery.user.remove's overhead
+							// This is a shortcut to avoid jQuery.event.remove's overhead
 							} else {
-								jQuery.removeUser( elem, type, data.handle );
+								jQuery.removeEvent( elem, type, data.handle );
 							}
 						}
 					}
@@ -381,7 +381,7 @@ jQuery.fn.extend({
 		for ( ; (elem = this[i]) != null; i++ ) {
 			if ( elem.nodeType === 1 ) {
 
-				// Pruser memory leaks
+				// Prevent memory leaks
 				jQuery.cleanData( getAll( elem, false ) );
 
 				// Remove any remaining nodes
@@ -392,12 +392,12 @@ jQuery.fn.extend({
 		return this;
 	},
 
-	clone: function( dataAndUsers, deepDataAndUsers ) {
-		dataAndUsers = dataAndUsers == null ? false : dataAndUsers;
-		deepDataAndUsers = deepDataAndUsers == null ? dataAndUsers : deepDataAndUsers;
+	clone: function( dataAndEvents, deepDataAndEvents ) {
+		dataAndEvents = dataAndEvents == null ? false : dataAndEvents;
+		deepDataAndEvents = deepDataAndEvents == null ? dataAndEvents : deepDataAndEvents;
 
 		return this.map(function() {
-			return jQuery.clone( this, dataAndUsers, deepDataAndUsers );
+			return jQuery.clone( this, dataAndEvents, deepDataAndEvents );
 		});
 	},
 
@@ -421,7 +421,7 @@ jQuery.fn.extend({
 					for ( ; i < l; i++ ) {
 						elem = this[ i ] || {};
 
-						// Remove element nodes and pruser memory leaks
+						// Remove element nodes and prevent memory leaks
 						if ( elem.nodeType === 1 ) {
 							jQuery.cleanData( getAll( elem, false ) );
 							elem.innerHTML = value;

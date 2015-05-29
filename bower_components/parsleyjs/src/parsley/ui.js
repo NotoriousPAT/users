@@ -32,7 +32,7 @@ define('parsley/ui', [
       // Then store current validation result for next reflow
       fieldInstance._ui.lastValidationResult = fieldInstance.validationResult;
 
-      // Field have been validated at least once if here. Useful for binded key users...
+      // Field have been validated at least once if here. Useful for binded key events...
       fieldInstance._ui.validatedOnce = true;
 
       // Handle valid / invalid / none field class
@@ -298,7 +298,7 @@ define('parsley/ui', [
       if (fieldInstance.options.multiple)
         $toBind = $('[' + fieldInstance.options.namespace + 'multiple="' + fieldInstance.options.multiple + '"]')
 
-      // Remove Parsley users already binded on this field
+      // Remove Parsley events already binded on this field
       $toBind.off('.Parsley');
 
       // If no trigger is set, all good
@@ -310,18 +310,18 @@ define('parsley/ui', [
       if ('' === triggers)
         return;
 
-      // Bind fieldInstance.userValidate if exists (for parsley.ajax for example), ParsleyUI.userValidate otherwise
+      // Bind fieldInstance.eventValidate if exists (for parsley.ajax for example), ParsleyUI.eventValidate otherwise
       $toBind.on(
         triggers.split(' ').join('.Parsley ') + '.Parsley',
-        $.proxy('function' === typeof fieldInstance.userValidate ? fieldInstance.userValidate : this.userValidate, fieldInstance));
+        $.proxy('function' === typeof fieldInstance.eventValidate ? fieldInstance.eventValidate : this.eventValidate, fieldInstance));
     },
 
     // Called through $.proxy with fieldInstance. `this` context is ParsleyField
-    userValidate: function(user) {
-      // For keyup, keypress, keydown... users that could be a little bit obstrusive
+    eventValidate: function(event) {
+      // For keyup, keypress, keydown... events that could be a little bit obstrusive
       // do not validate if val length < min threshold on first validation. Once field have been validated once and info
       // about success or failure have been displayed, always validate with this trigger to reflect every yalidation change.
-      if (new RegExp('key').test(user.type))
+      if (new RegExp('key').test(event.type))
         if (!this._ui.validationInformationVisible && this.getValue().length <= this.options.validationThreshold)
           return;
 
@@ -350,7 +350,7 @@ define('parsley/ui', [
     },
 
     reset: function (parsleyInstance) {
-      // Reset all user listeners
+      // Reset all event listeners
       parsleyInstance.$element.off('.Parsley');
       parsleyInstance.$element.off('.ParsleyFailedOnce');
 

@@ -3,5 +3,8 @@ app.Event = function (spec) {
 
   this.id = spec.id;
   this.name = spec.name;
-  this.email = spec.email;
+  this.street = spec.street;
+  this.city = spec.city;
+  this.state = spec.state;
+  this.zip = spec.zip;
 };

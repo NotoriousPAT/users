@@ -387,7 +387,7 @@ jQuery.extend({
 			timeoutTimer,
 			// Cross-domain detection vars
 			parts,
-			// To know if global users are to be dispatched
+			// To know if global events are to be dispatched
 			fireGlobals,
 			// Loop variable
 			i,
@@ -395,10 +395,10 @@ jQuery.extend({
 			s = jQuery.ajaxSetup( {}, options ),
 			// Callbacks context
 			callbackContext = s.context || s,
-			// Context for global users is callbackContext if it is a DOM node or jQuery collection
-			globalUserContext = s.context && ( callbackContext.nodeType || callbackContext.jquery ) ?
+			// Context for global events is callbackContext if it is a DOM node or jQuery collection
+			globalEventContext = s.context && ( callbackContext.nodeType || callbackContext.jquery ) ?
 				jQuery( callbackContext ) :
-				jQuery.user,
+				jQuery.event,
 			// Deferreds
 			deferred = jQuery.Deferred(),
 			completeDeferred = jQuery.Callbacks("once memory"),
@@ -522,13 +522,13 @@ jQuery.extend({
 			return jqXHR;
 		}
 
-		// We can fire global users as of now if asked to
-		// Don't fire users if jQuery.user is undefined in an AMD-usage scenario (#15118)
-		fireGlobals = jQuery.user && s.global;
+		// We can fire global events as of now if asked to
+		// Don't fire events if jQuery.event is undefined in an AMD-usage scenario (#15118)
+		fireGlobals = jQuery.event && s.global;
 
 		// Watch for a new set of requests
 		if ( fireGlobals && jQuery.active++ === 0 ) {
-			jQuery.user.trigger("ajaxStart");
+			jQuery.event.trigger("ajaxStart");
 		}
 
 		// Uppercase the type
@@ -547,7 +547,7 @@ jQuery.extend({
 			// If data is available, append data to url
 			if ( s.data ) {
 				cacheURL = ( s.url += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.data );
-				// #9682: remove data so that it's not used in an userual retry
+				// #9682: remove data so that it's not used in an eventual retry
 				delete s.data;
 			}
 
@@ -614,9 +614,9 @@ jQuery.extend({
 		} else {
 			jqXHR.readyState = 1;
 
-			// Send global user
+			// Send global event
 			if ( fireGlobals ) {
-				globalUserContext.trigger( "ajaxSend", [ jqXHR, s ] );
+				globalEventContext.trigger( "ajaxSend", [ jqXHR, s ] );
 			}
 			// Timeout
 			if ( s.async && s.timeout > 0 ) {
@@ -735,7 +735,7 @@ jQuery.extend({
 			statusCode = undefined;
 
 			if ( fireGlobals ) {
-				globalUserContext.trigger( isSuccess ? "ajaxSuccess" : "ajaxError",
+				globalEventContext.trigger( isSuccess ? "ajaxSuccess" : "ajaxError",
 					[ jqXHR, s, isSuccess ? success : error ] );
 			}
 
@@ -743,10 +743,10 @@ jQuery.extend({
 			completeDeferred.fireWith( callbackContext, [ jqXHR, statusText ] );
 
 			if ( fireGlobals ) {
-				globalUserContext.trigger( "ajaxComplete", [ jqXHR, s ] );
+				globalEventContext.trigger( "ajaxComplete", [ jqXHR, s ] );
 				// Handle the global AJAX counter
 				if ( !( --jQuery.active ) ) {
-					jQuery.user.trigger("ajaxStop");
+					jQuery.event.trigger("ajaxStop");
 				}
 			}
 		}

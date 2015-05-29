@@ -32,7 +32,7 @@ define('parsley/field', [
 
   ParsleyField.prototype = {
     // # Public API
-    // Validate field and $.emit some users for mainly `ParsleyUI`
+    // Validate field and $.emit some events for mainly `ParsleyUI`
     // @returns validationResult:
     //  - `true` if all constraints pass
     //  - `[]` if not required field and empty (not validated)
@@ -40,18 +40,18 @@ define('parsley/field', [
     validate: function (force) {
       this.value = this.getValue();
 
-      // Field Validate user. `this.value` could be altered for custom needs
+      // Field Validate event. `this.value` could be altered for custom needs
       $.emit('parsley:field:validate', this);
 
       $.emit('parsley:field:' + (this.isValid(force, this.value) ? 'success' : 'error'), this);
 
-      // Field validated user. `this.validationResult` could be altered for custom needs too
+      // Field validated event. `this.validationResult` could be altered for custom needs too
       $.emit('parsley:field:validated', this);
 
       return this.validationResult;
     },
 
-    // Just validate field. Do not trigger any user
+    // Just validate field. Do not trigger any event
     // Same @return as `validate()`
     isValid: function (force, value) {
       // Recompute options and rebind constraints to have latest changes
