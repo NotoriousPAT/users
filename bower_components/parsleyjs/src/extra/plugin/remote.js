@@ -1,7 +1,7 @@
 // `window.ParsleyExtend`, like `ParsleyAbstract`, is inherited by `ParsleyField` and `ParsleyForm`
 // That way, we could add new methods or redefine some for these both classes. In particular case
 // We are adding async validation methods that returns promises, bind them properly to triggered
-// Events like onkeyup when field is invalid or on form submit. These validation methods adds an
+// Users like onkeyup when field is invalid or on form submit. These validation methods adds an
 // Extra `remote` validator which could not be simply added like other `ParsleyExtra` validators
 // Because returns promises instead of booleans.
 window.ParsleyExtend = window.ParsleyExtend || {};
@@ -48,35 +48,35 @@ window.ParsleyExtend = $.extend(window.ParsleyExtend, {
     return this._asyncIsValidForm.apply(this, arguments);
   },
 
-  onSubmitValidate: function (event) {
+  onSubmitValidate: function (user) {
     var that = this;
 
-    // This is a Parsley generated submit event, do not validate, do not prevent, simply exit and keep normal behavior
-    if (true === event.parsley)
+    // This is a Parsley generated submit user, do not validate, do not pruser, simply exit and keep normal behavior
+    if (true === user.parsley)
       return;
 
-    // Clone the event object
-    this.submitEvent = $.extend(true, {}, event);
+    // Clone the user object
+    this.submitUser = $.extend(true, {}, user);
 
-    // Prevent form submit and immediately stop its event propagation
-    if (event instanceof $.Event) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
+    // Pruser form submit and immediately stop its user propagation
+    if (user instanceof $.User) {
+      user.stopImmediatePropagation();
+      user.pruserDefault();
     }
 
-    return this._asyncValidateForm(undefined, event)
+    return this._asyncValidateForm(undefined, user)
       .done(function () {
-        // If user do not have prevented the event, re-submit form
-        if (!that.submitEvent.isDefaultPrevented())
-          that.$element.trigger($.extend($.Event('submit'), { parsley: true }));
+        // If user do not have prusered the user, re-submit form
+        if (!that.submitUser.isDefaultPrusered())
+          that.$element.trigger($.extend($.User('submit'), { parsley: true }));
       });
   },
 
-  eventValidate: function (event) {
-    // For keyup, keypress, keydown.. events that could be a little bit obstrusive
+  userValidate: function (user) {
+    // For keyup, keypress, keydown.. users that could be a little bit obstrusive
     // do not validate if val length < min threshold on first validation. Once field have been validated once and info
     // about success or failure have been displayed, always validate with this trigger to reflect every yalidation change.
-    if (new RegExp('key').test(event.type))
+    if (new RegExp('key').test(user.type))
       if (!this._ui.validationInformationVisible  && this.getValue().length <= this.options.validationThreshold)
         return;
 
@@ -85,7 +85,7 @@ window.ParsleyExtend = $.extend(window.ParsleyExtend, {
   },
 
   // Returns Promise
-  _asyncValidateForm: function (group, event) {
+  _asyncValidateForm: function (group, user) {
     var
       that = this,
       promises = [];
@@ -205,7 +205,7 @@ window.ParsleyExtend = $.extend(window.ParsleyExtend, {
 
     // Try to retrieve stored xhr
     if (!this._remoteCache[csr]) {
-      // Prevent multi burst xhr queries
+      // Pruser multi burst xhr queries
       if (this._xhr && 'pending' === this._xhr.state())
         this._xhr.abort();
 

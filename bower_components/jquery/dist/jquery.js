@@ -209,7 +209,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 				src = target[ name ];
 				copy = options[ name ];
 
-				// Prevent never-ending loop
+				// Pruser never-ending loop
 				if ( target === copy ) {
 					continue;
 				}
@@ -533,7 +533,7 @@ jQuery.each("Boolean Number String Function Array Date RegExp Object Error".spli
 function isArraylike( obj ) {
 
 	// Support: iOS 8.2 (not reproducible in simulator)
-	// `in` check used to prevent JIT error (gh-2145)
+	// `in` check used to pruser JIT error (gh-2145)
 	// hasOwn isn't used here due to false negatives
 	// regarding Nodelist length in IE
 	var length = "length" in obj && obj.length,
@@ -1040,11 +1040,11 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// IE will throw "permission denied" error when accessing "document" variable, see jQuery #13936
 	// IE6-8 do not support the defaultView property so parent will be undefined
 	if ( parent && parent !== parent.top ) {
-		// IE11 does not have attachEvent, so all must suffer
+		// IE11 does not have attachUser, so all must suffer
 		if ( parent.addEventListener ) {
 			parent.addEventListener( "unload", unloadHandler, false );
-		} else if ( parent.attachEvent ) {
-			parent.attachEvent( "onunload", unloadHandler );
+		} else if ( parent.attachUser ) {
+			parent.attachUser( "onunload", unloadHandler );
 		}
 	}
 
@@ -2563,7 +2563,7 @@ support.sortDetached = assert(function( div1 ) {
 });
 
 // Support: IE<8
-// Prevent attribute/property "interpolation"
+// Pruser attribute/property "interpolation"
 // http://msdn.microsoft.com/en-us/library/ms536429%28VS.85%29.aspx
 if ( !assert(function( div ) {
 	div.innerHTML = "<a href='#'></a>";
@@ -3047,7 +3047,7 @@ function createOptions( options ) {
  *	options: an optional list of space-separated options that will change how
  *			the callback list behaves or a more traditional option object
  *
- * By default a callback list will act like an event callback list and can be
+ * By default a callback list will act like an user callback list and can be
  * "fired" multiple times.
  *
  * Possible options:
@@ -3097,7 +3097,7 @@ jQuery.Callbacks = function( options ) {
 			firing = true;
 			for ( ; list && firingIndex < firingLength; firingIndex++ ) {
 				if ( list[ firingIndex ].apply( data[ 0 ], data[ 1 ] ) === false && options.stopOnFalse ) {
-					memory = false; // To prevent further calls using add
+					memory = false; // To pruser further calls using add
 					break;
 				}
 			}
@@ -3385,10 +3385,10 @@ jQuery.extend({
 	isReady: false,
 
 	// A counter to track how many items to wait for before
-	// the ready event fires. See #6781
+	// the ready user fires. See #6781
 	readyWait: 1,
 
-	// Hold (or release) the ready event
+	// Hold (or release) the ready user
 	holdReady: function( hold ) {
 		if ( hold ) {
 			jQuery.readyWait++;
@@ -3408,7 +3408,7 @@ jQuery.extend({
 		// Remember that the DOM is ready
 		jQuery.isReady = true;
 
-		// If a normal DOM Ready event fired, decrement, and wait if need be
+		// If a normal DOM Ready user fired, decrement, and wait if need be
 		if ( wait !== true && --jQuery.readyWait > 0 ) {
 			return;
 		}
@@ -3416,7 +3416,7 @@ jQuery.extend({
 		// If there are functions bound, to execute
 		readyList.resolveWith( document, [ jQuery ] );
 
-		// Trigger any bound ready events
+		// Trigger any bound ready users
 		if ( jQuery.fn.triggerHandler ) {
 			jQuery( document ).triggerHandler( "ready" );
 			jQuery( document ).off( "ready" );
@@ -3425,7 +3425,7 @@ jQuery.extend({
 });
 
 /**
- * The ready event handler and self cleanup method
+ * The ready user handler and self cleanup method
  */
 function completed() {
 	document.removeEventListener( "DOMContentLoaded", completed, false );
@@ -3438,7 +3438,7 @@ jQuery.ready.promise = function( obj ) {
 
 		readyList = jQuery.Deferred();
 
-		// Catch cases where $(document).ready() is called after the browser event has already occurred.
+		// Catch cases where $(document).ready() is called after the browser user has already occurred.
 		// We once tried to use readyState "interactive" here, but it caused issues like the one
 		// discovered by ChrisS here: http://bugs.jquery.com/ticket/12282#comment:15
 		if ( document.readyState === "complete" ) {
@@ -3447,7 +3447,7 @@ jQuery.ready.promise = function( obj ) {
 
 		} else {
 
-			// Use the handy event callback
+			// Use the handy user callback
 			document.addEventListener( "DOMContentLoaded", completed, false );
 
 			// A fallback to window.onload, that will always work
@@ -3534,7 +3534,7 @@ jQuery.acceptData = function( owner ) {
 
 function Data() {
 	// Support: Android<4,
-	// Old WebKit does not have Object.preventExtensions/freeze method,
+	// Old WebKit does not have Object.pruserExtensions/freeze method,
 	// return new empty object instead with no [[set]] accessor
 	Object.defineProperty( this.cache = {}, 0, {
 		get: function() {
@@ -3918,7 +3918,7 @@ jQuery.extend({
 
 		if ( fn ) {
 
-			// Add a progress sentinel to prevent the fx queue from being
+			// Add a progress sentinel to pruser the fx queue from being
 			// automatically dequeued
 			if ( type === "fx" ) {
 				queue.unshift( "inprogress" );
@@ -4058,8 +4058,8 @@ support.focusinBubbles = "onfocusin" in window;
 
 
 var
-	rkeyEvent = /^key/,
-	rmouseEvent = /^(?:mouse|pointer|contextmenu)|click/,
+	rkeyUser = /^key/,
+	rmouseUser = /^(?:mouse|pointer|contextmenu)|click/,
 	rfocusMorph = /^(?:focusinfocus|focusoutblur)$/,
 	rtypenamespace = /^([^.]*)(?:\.(.+)|)$/;
 
@@ -4078,21 +4078,21 @@ function safeActiveElement() {
 }
 
 /*
- * Helper functions for managing events -- not part of the public interface.
- * Props to Dean Edwards' addEvent library for many of the ideas.
+ * Helper functions for managing users -- not part of the public interface.
+ * Props to Dean Edwards' addUser library for many of the ideas.
  */
-jQuery.event = {
+jQuery.user = {
 
 	global: {},
 
 	add: function( elem, types, handler, data, selector ) {
 
-		var handleObjIn, eventHandle, tmp,
-			events, t, handleObj,
+		var handleObjIn, userHandle, tmp,
+			users, t, handleObj,
 			special, handlers, type, namespaces, origType,
 			elemData = data_priv.get( elem );
 
-		// Don't attach events to noData or text/comment nodes (but allow plain objects)
+		// Don't attach users to noData or text/comment nodes (but allow plain objects)
 		if ( !elemData ) {
 			return;
 		}
@@ -4109,20 +4109,20 @@ jQuery.event = {
 			handler.guid = jQuery.guid++;
 		}
 
-		// Init the element's event structure and main handler, if this is the first
-		if ( !(events = elemData.events) ) {
-			events = elemData.events = {};
+		// Init the element's user structure and main handler, if this is the first
+		if ( !(users = elemData.users) ) {
+			users = elemData.users = {};
 		}
-		if ( !(eventHandle = elemData.handle) ) {
-			eventHandle = elemData.handle = function( e ) {
-				// Discard the second event of a jQuery.event.trigger() and
-				// when an event is called after a page has unloaded
-				return typeof jQuery !== strundefined && jQuery.event.triggered !== e.type ?
-					jQuery.event.dispatch.apply( elem, arguments ) : undefined;
+		if ( !(userHandle = elemData.handle) ) {
+			userHandle = elemData.handle = function( e ) {
+				// Discard the second user of a jQuery.user.trigger() and
+				// when an user is called after a page has unloaded
+				return typeof jQuery !== strundefined && jQuery.user.triggered !== e.type ?
+					jQuery.user.dispatch.apply( elem, arguments ) : undefined;
 			};
 		}
 
-		// Handle multiple events separated by a space
+		// Handle multiple users separated by a space
 		types = ( types || "" ).match( rnotwhite ) || [ "" ];
 		t = types.length;
 		while ( t-- ) {
@@ -4135,16 +4135,16 @@ jQuery.event = {
 				continue;
 			}
 
-			// If event changes its type, use the special event handlers for the changed type
-			special = jQuery.event.special[ type ] || {};
+			// If user changes its type, use the special user handlers for the changed type
+			special = jQuery.user.special[ type ] || {};
 
-			// If selector defined, determine special event api type, otherwise given type
+			// If selector defined, determine special user api type, otherwise given type
 			type = ( selector ? special.delegateType : special.bindType ) || type;
 
 			// Update special based on newly reset type
-			special = jQuery.event.special[ type ] || {};
+			special = jQuery.user.special[ type ] || {};
 
-			// handleObj is passed to all event handlers
+			// handleObj is passed to all user handlers
 			handleObj = jQuery.extend({
 				type: type,
 				origType: origType,
@@ -4156,15 +4156,15 @@ jQuery.event = {
 				namespace: namespaces.join(".")
 			}, handleObjIn );
 
-			// Init the event handler queue if we're the first
-			if ( !(handlers = events[ type ]) ) {
-				handlers = events[ type ] = [];
+			// Init the user handler queue if we're the first
+			if ( !(handlers = users[ type ]) ) {
+				handlers = users[ type ] = [];
 				handlers.delegateCount = 0;
 
-				// Only use addEventListener if the special events handler returns false
-				if ( !special.setup || special.setup.call( elem, data, namespaces, eventHandle ) === false ) {
+				// Only use addEventListener if the special users handler returns false
+				if ( !special.setup || special.setup.call( elem, data, namespaces, userHandle ) === false ) {
 					if ( elem.addEventListener ) {
-						elem.addEventListener( type, eventHandle, false );
+						elem.addEventListener( type, userHandle, false );
 					}
 				}
 			}
@@ -4184,21 +4184,21 @@ jQuery.event = {
 				handlers.push( handleObj );
 			}
 
-			// Keep track of which events have ever been used, for event optimization
-			jQuery.event.global[ type ] = true;
+			// Keep track of which users have ever been used, for user optimization
+			jQuery.user.global[ type ] = true;
 		}
 
 	},
 
-	// Detach an event or set of events from an element
+	// Detach an user or set of users from an element
 	remove: function( elem, types, handler, selector, mappedTypes ) {
 
 		var j, origCount, tmp,
-			events, t, handleObj,
+			users, t, handleObj,
 			special, handlers, type, namespaces, origType,
 			elemData = data_priv.hasData( elem ) && data_priv.get( elem );
 
-		if ( !elemData || !(events = elemData.events) ) {
+		if ( !elemData || !(users = elemData.users) ) {
 			return;
 		}
 
@@ -4210,20 +4210,20 @@ jQuery.event = {
 			type = origType = tmp[1];
 			namespaces = ( tmp[2] || "" ).split( "." ).sort();
 
-			// Unbind all events (on this namespace, if provided) for the element
+			// Unbind all users (on this namespace, if provided) for the element
 			if ( !type ) {
-				for ( type in events ) {
-					jQuery.event.remove( elem, type + types[ t ], handler, selector, true );
+				for ( type in users ) {
+					jQuery.user.remove( elem, type + types[ t ], handler, selector, true );
 				}
 				continue;
 			}
 
-			special = jQuery.event.special[ type ] || {};
+			special = jQuery.user.special[ type ] || {};
 			type = ( selector ? special.delegateType : special.bindType ) || type;
-			handlers = events[ type ] || [];
+			handlers = users[ type ] || [];
 			tmp = tmp[2] && new RegExp( "(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)" );
 
-			// Remove matching events
+			// Remove matching users
 			origCount = j = handlers.length;
 			while ( j-- ) {
 				handleObj = handlers[ j ];
@@ -4243,81 +4243,81 @@ jQuery.event = {
 				}
 			}
 
-			// Remove generic event handler if we removed something and no more handlers exist
-			// (avoids potential for endless recursion during removal of special event handlers)
+			// Remove generic user handler if we removed something and no more handlers exist
+			// (avoids potential for endless recursion during removal of special user handlers)
 			if ( origCount && !handlers.length ) {
 				if ( !special.teardown || special.teardown.call( elem, namespaces, elemData.handle ) === false ) {
-					jQuery.removeEvent( elem, type, elemData.handle );
+					jQuery.removeUser( elem, type, elemData.handle );
 				}
 
-				delete events[ type ];
+				delete users[ type ];
 			}
 		}
 
 		// Remove the expando if it's no longer used
-		if ( jQuery.isEmptyObject( events ) ) {
+		if ( jQuery.isEmptyObject( users ) ) {
 			delete elemData.handle;
-			data_priv.remove( elem, "events" );
+			data_priv.remove( elem, "users" );
 		}
 	},
 
-	trigger: function( event, data, elem, onlyHandlers ) {
+	trigger: function( user, data, elem, onlyHandlers ) {
 
 		var i, cur, tmp, bubbleType, ontype, handle, special,
-			eventPath = [ elem || document ],
-			type = hasOwn.call( event, "type" ) ? event.type : event,
-			namespaces = hasOwn.call( event, "namespace" ) ? event.namespace.split(".") : [];
+			userPath = [ elem || document ],
+			type = hasOwn.call( user, "type" ) ? user.type : user,
+			namespaces = hasOwn.call( user, "namespace" ) ? user.namespace.split(".") : [];
 
 		cur = tmp = elem = elem || document;
 
-		// Don't do events on text and comment nodes
+		// Don't do users on text and comment nodes
 		if ( elem.nodeType === 3 || elem.nodeType === 8 ) {
 			return;
 		}
 
 		// focus/blur morphs to focusin/out; ensure we're not firing them right now
-		if ( rfocusMorph.test( type + jQuery.event.triggered ) ) {
+		if ( rfocusMorph.test( type + jQuery.user.triggered ) ) {
 			return;
 		}
 
 		if ( type.indexOf(".") >= 0 ) {
-			// Namespaced trigger; create a regexp to match event type in handle()
+			// Namespaced trigger; create a regexp to match user type in handle()
 			namespaces = type.split(".");
 			type = namespaces.shift();
 			namespaces.sort();
 		}
 		ontype = type.indexOf(":") < 0 && "on" + type;
 
-		// Caller can pass in a jQuery.Event object, Object, or just an event type string
-		event = event[ jQuery.expando ] ?
-			event :
-			new jQuery.Event( type, typeof event === "object" && event );
+		// Caller can pass in a jQuery.User object, Object, or just an user type string
+		user = user[ jQuery.expando ] ?
+			user :
+			new jQuery.User( type, typeof user === "object" && user );
 
 		// Trigger bitmask: & 1 for native handlers; & 2 for jQuery (always true)
-		event.isTrigger = onlyHandlers ? 2 : 3;
-		event.namespace = namespaces.join(".");
-		event.namespace_re = event.namespace ?
+		user.isTrigger = onlyHandlers ? 2 : 3;
+		user.namespace = namespaces.join(".");
+		user.namespace_re = user.namespace ?
 			new RegExp( "(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)" ) :
 			null;
 
-		// Clean up the event in case it is being reused
-		event.result = undefined;
-		if ( !event.target ) {
-			event.target = elem;
+		// Clean up the user in case it is being reused
+		user.result = undefined;
+		if ( !user.target ) {
+			user.target = elem;
 		}
 
-		// Clone any incoming data and prepend the event, creating the handler arg list
+		// Clone any incoming data and prepend the user, creating the handler arg list
 		data = data == null ?
-			[ event ] :
-			jQuery.makeArray( data, [ event ] );
+			[ user ] :
+			jQuery.makeArray( data, [ user ] );
 
-		// Allow special events to draw outside the lines
-		special = jQuery.event.special[ type ] || {};
+		// Allow special users to draw outside the lines
+		special = jQuery.user.special[ type ] || {};
 		if ( !onlyHandlers && special.trigger && special.trigger.apply( elem, data ) === false ) {
 			return;
 		}
 
-		// Determine event propagation path in advance, per W3C events spec (#9951)
+		// Determine user propagation path in advance, per W3C users spec (#9951)
 		// Bubble up to document, then to window; watch for a global ownerDocument var (#9724)
 		if ( !onlyHandlers && !special.noBubble && !jQuery.isWindow( elem ) ) {
 
@@ -4326,26 +4326,26 @@ jQuery.event = {
 				cur = cur.parentNode;
 			}
 			for ( ; cur; cur = cur.parentNode ) {
-				eventPath.push( cur );
+				userPath.push( cur );
 				tmp = cur;
 			}
 
 			// Only add window if we got to document (e.g., not plain obj or detached DOM)
 			if ( tmp === (elem.ownerDocument || document) ) {
-				eventPath.push( tmp.defaultView || tmp.parentWindow || window );
+				userPath.push( tmp.defaultView || tmp.parentWindow || window );
 			}
 		}
 
-		// Fire handlers on the event path
+		// Fire handlers on the user path
 		i = 0;
-		while ( (cur = eventPath[i++]) && !event.isPropagationStopped() ) {
+		while ( (cur = userPath[i++]) && !user.isPropagationStopped() ) {
 
-			event.type = i > 1 ?
+			user.type = i > 1 ?
 				bubbleType :
 				special.bindType || type;
 
 			// jQuery handler
-			handle = ( data_priv.get( cur, "events" ) || {} )[ event.type ] && data_priv.get( cur, "handle" );
+			handle = ( data_priv.get( cur, "users" ) || {} )[ user.type ] && data_priv.get( cur, "handle" );
 			if ( handle ) {
 				handle.apply( cur, data );
 			}
@@ -4353,35 +4353,35 @@ jQuery.event = {
 			// Native handler
 			handle = ontype && cur[ ontype ];
 			if ( handle && handle.apply && jQuery.acceptData( cur ) ) {
-				event.result = handle.apply( cur, data );
-				if ( event.result === false ) {
-					event.preventDefault();
+				user.result = handle.apply( cur, data );
+				if ( user.result === false ) {
+					user.pruserDefault();
 				}
 			}
 		}
-		event.type = type;
+		user.type = type;
 
-		// If nobody prevented the default action, do it now
-		if ( !onlyHandlers && !event.isDefaultPrevented() ) {
+		// If nobody prusered the default action, do it now
+		if ( !onlyHandlers && !user.isDefaultPrusered() ) {
 
-			if ( (!special._default || special._default.apply( eventPath.pop(), data ) === false) &&
+			if ( (!special._default || special._default.apply( userPath.pop(), data ) === false) &&
 				jQuery.acceptData( elem ) ) {
 
-				// Call a native DOM method on the target with the same name name as the event.
+				// Call a native DOM method on the target with the same name name as the user.
 				// Don't do default actions on window, that's where global variables be (#6170)
 				if ( ontype && jQuery.isFunction( elem[ type ] ) && !jQuery.isWindow( elem ) ) {
 
-					// Don't re-trigger an onFOO event when we call its FOO() method
+					// Don't re-trigger an onFOO user when we call its FOO() method
 					tmp = elem[ ontype ];
 
 					if ( tmp ) {
 						elem[ ontype ] = null;
 					}
 
-					// Prevent re-triggering of the same event, since we already bubbled it above
-					jQuery.event.triggered = type;
+					// Pruser re-triggering of the same user, since we already bubbled it above
+					jQuery.user.triggered = type;
 					elem[ type ]();
-					jQuery.event.triggered = undefined;
+					jQuery.user.triggered = undefined;
 
 					if ( tmp ) {
 						elem[ ontype ] = tmp;
@@ -4390,54 +4390,54 @@ jQuery.event = {
 			}
 		}
 
-		return event.result;
+		return user.result;
 	},
 
-	dispatch: function( event ) {
+	dispatch: function( user ) {
 
-		// Make a writable jQuery.Event from the native event object
-		event = jQuery.event.fix( event );
+		// Make a writable jQuery.User from the native user object
+		user = jQuery.user.fix( user );
 
 		var i, j, ret, matched, handleObj,
 			handlerQueue = [],
 			args = slice.call( arguments ),
-			handlers = ( data_priv.get( this, "events" ) || {} )[ event.type ] || [],
-			special = jQuery.event.special[ event.type ] || {};
+			handlers = ( data_priv.get( this, "users" ) || {} )[ user.type ] || [],
+			special = jQuery.user.special[ user.type ] || {};
 
-		// Use the fix-ed jQuery.Event rather than the (read-only) native event
-		args[0] = event;
-		event.delegateTarget = this;
+		// Use the fix-ed jQuery.User rather than the (read-only) native user
+		args[0] = user;
+		user.delegateTarget = this;
 
 		// Call the preDispatch hook for the mapped type, and let it bail if desired
-		if ( special.preDispatch && special.preDispatch.call( this, event ) === false ) {
+		if ( special.preDispatch && special.preDispatch.call( this, user ) === false ) {
 			return;
 		}
 
 		// Determine handlers
-		handlerQueue = jQuery.event.handlers.call( this, event, handlers );
+		handlerQueue = jQuery.user.handlers.call( this, user, handlers );
 
 		// Run delegates first; they may want to stop propagation beneath us
 		i = 0;
-		while ( (matched = handlerQueue[ i++ ]) && !event.isPropagationStopped() ) {
-			event.currentTarget = matched.elem;
+		while ( (matched = handlerQueue[ i++ ]) && !user.isPropagationStopped() ) {
+			user.currentTarget = matched.elem;
 
 			j = 0;
-			while ( (handleObj = matched.handlers[ j++ ]) && !event.isImmediatePropagationStopped() ) {
+			while ( (handleObj = matched.handlers[ j++ ]) && !user.isImmediatePropagationStopped() ) {
 
-				// Triggered event must either 1) have no namespace, or 2) have namespace(s)
-				// a subset or equal to those in the bound event (both can have no namespace).
-				if ( !event.namespace_re || event.namespace_re.test( handleObj.namespace ) ) {
+				// Triggered user must either 1) have no namespace, or 2) have namespace(s)
+				// a subset or equal to those in the bound user (both can have no namespace).
+				if ( !user.namespace_re || user.namespace_re.test( handleObj.namespace ) ) {
 
-					event.handleObj = handleObj;
-					event.data = handleObj.data;
+					user.handleObj = handleObj;
+					user.data = handleObj.data;
 
-					ret = ( (jQuery.event.special[ handleObj.origType ] || {}).handle || handleObj.handler )
+					ret = ( (jQuery.user.special[ handleObj.origType ] || {}).handle || handleObj.handler )
 							.apply( matched.elem, args );
 
 					if ( ret !== undefined ) {
-						if ( (event.result = ret) === false ) {
-							event.preventDefault();
-							event.stopPropagation();
+						if ( (user.result = ret) === false ) {
+							user.pruserDefault();
+							user.stopPropagation();
 						}
 					}
 				}
@@ -4446,27 +4446,27 @@ jQuery.event = {
 
 		// Call the postDispatch hook for the mapped type
 		if ( special.postDispatch ) {
-			special.postDispatch.call( this, event );
+			special.postDispatch.call( this, user );
 		}
 
-		return event.result;
+		return user.result;
 	},
 
-	handlers: function( event, handlers ) {
+	handlers: function( user, handlers ) {
 		var i, matches, sel, handleObj,
 			handlerQueue = [],
 			delegateCount = handlers.delegateCount,
-			cur = event.target;
+			cur = user.target;
 
 		// Find delegate handlers
 		// Black-hole SVG <use> instance trees (#13180)
 		// Avoid non-left-click bubbling in Firefox (#3861)
-		if ( delegateCount && cur.nodeType && (!event.button || event.type !== "click") ) {
+		if ( delegateCount && cur.nodeType && (!user.button || user.type !== "click") ) {
 
 			for ( ; cur !== this; cur = cur.parentNode || this ) {
 
 				// Don't process clicks on disabled elements (#6911, #8165, #11382, #11764)
-				if ( cur.disabled !== true || event.type !== "click" ) {
+				if ( cur.disabled !== true || user.type !== "click" ) {
 					matches = [];
 					for ( i = 0; i < delegateCount; i++ ) {
 						handleObj = handlers[ i ];
@@ -4498,99 +4498,99 @@ jQuery.event = {
 		return handlerQueue;
 	},
 
-	// Includes some event props shared by KeyEvent and MouseEvent
-	props: "altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which".split(" "),
+	// Includes some user props shared by KeyUser and MouseUser
+	props: "altKey bubbles cancelable ctrlKey currentTarget userPhase metaKey relatedTarget shiftKey target timeStamp view which".split(" "),
 
 	fixHooks: {},
 
 	keyHooks: {
 		props: "char charCode key keyCode".split(" "),
-		filter: function( event, original ) {
+		filter: function( user, original ) {
 
-			// Add which for key events
-			if ( event.which == null ) {
-				event.which = original.charCode != null ? original.charCode : original.keyCode;
+			// Add which for key users
+			if ( user.which == null ) {
+				user.which = original.charCode != null ? original.charCode : original.keyCode;
 			}
 
-			return event;
+			return user;
 		}
 	},
 
 	mouseHooks: {
 		props: "button buttons clientX clientY offsetX offsetY pageX pageY screenX screenY toElement".split(" "),
-		filter: function( event, original ) {
-			var eventDoc, doc, body,
+		filter: function( user, original ) {
+			var userDoc, doc, body,
 				button = original.button;
 
 			// Calculate pageX/Y if missing and clientX/Y available
-			if ( event.pageX == null && original.clientX != null ) {
-				eventDoc = event.target.ownerDocument || document;
-				doc = eventDoc.documentElement;
-				body = eventDoc.body;
+			if ( user.pageX == null && original.clientX != null ) {
+				userDoc = user.target.ownerDocument || document;
+				doc = userDoc.documentElement;
+				body = userDoc.body;
 
-				event.pageX = original.clientX + ( doc && doc.scrollLeft || body && body.scrollLeft || 0 ) - ( doc && doc.clientLeft || body && body.clientLeft || 0 );
-				event.pageY = original.clientY + ( doc && doc.scrollTop  || body && body.scrollTop  || 0 ) - ( doc && doc.clientTop  || body && body.clientTop  || 0 );
+				user.pageX = original.clientX + ( doc && doc.scrollLeft || body && body.scrollLeft || 0 ) - ( doc && doc.clientLeft || body && body.clientLeft || 0 );
+				user.pageY = original.clientY + ( doc && doc.scrollTop  || body && body.scrollTop  || 0 ) - ( doc && doc.clientTop  || body && body.clientTop  || 0 );
 			}
 
 			// Add which for click: 1 === left; 2 === middle; 3 === right
 			// Note: button is not normalized, so don't use it
-			if ( !event.which && button !== undefined ) {
-				event.which = ( button & 1 ? 1 : ( button & 2 ? 3 : ( button & 4 ? 2 : 0 ) ) );
+			if ( !user.which && button !== undefined ) {
+				user.which = ( button & 1 ? 1 : ( button & 2 ? 3 : ( button & 4 ? 2 : 0 ) ) );
 			}
 
-			return event;
+			return user;
 		}
 	},
 
-	fix: function( event ) {
-		if ( event[ jQuery.expando ] ) {
-			return event;
+	fix: function( user ) {
+		if ( user[ jQuery.expando ] ) {
+			return user;
 		}
 
-		// Create a writable copy of the event object and normalize some properties
+		// Create a writable copy of the user object and normalize some properties
 		var i, prop, copy,
-			type = event.type,
-			originalEvent = event,
+			type = user.type,
+			originalUser = user,
 			fixHook = this.fixHooks[ type ];
 
 		if ( !fixHook ) {
 			this.fixHooks[ type ] = fixHook =
-				rmouseEvent.test( type ) ? this.mouseHooks :
-				rkeyEvent.test( type ) ? this.keyHooks :
+				rmouseUser.test( type ) ? this.mouseHooks :
+				rkeyUser.test( type ) ? this.keyHooks :
 				{};
 		}
 		copy = fixHook.props ? this.props.concat( fixHook.props ) : this.props;
 
-		event = new jQuery.Event( originalEvent );
+		user = new jQuery.User( originalUser );
 
 		i = copy.length;
 		while ( i-- ) {
 			prop = copy[ i ];
-			event[ prop ] = originalEvent[ prop ];
+			user[ prop ] = originalUser[ prop ];
 		}
 
 		// Support: Cordova 2.5 (WebKit) (#13255)
-		// All events should have a target; Cordova deviceready doesn't
-		if ( !event.target ) {
-			event.target = document;
+		// All users should have a target; Cordova deviceready doesn't
+		if ( !user.target ) {
+			user.target = document;
 		}
 
 		// Support: Safari 6.0+, Chrome<28
 		// Target should not be a text node (#504, #13143)
-		if ( event.target.nodeType === 3 ) {
-			event.target = event.target.parentNode;
+		if ( user.target.nodeType === 3 ) {
+			user.target = user.target.parentNode;
 		}
 
-		return fixHook.filter ? fixHook.filter( event, originalEvent ) : event;
+		return fixHook.filter ? fixHook.filter( user, originalUser ) : user;
 	},
 
 	special: {
 		load: {
-			// Prevent triggered image.load events from bubbling to window.load
+			// Pruser triggered image.load users from bubbling to window.load
 			noBubble: true
 		},
 		focus: {
-			// Fire native event if possible so blur/focus sequence is correct
+			// Fire native user if possible so blur/focus sequence is correct
 			trigger: function() {
 				if ( this !== safeActiveElement() && this.focus ) {
 					this.focus();
@@ -4609,7 +4609,7 @@ jQuery.event = {
 			delegateType: "focusout"
 		},
 		click: {
-			// For checkbox, fire native event so checked state will be right
+			// For checkbox, fire native user so checked state will be right
 			trigger: function() {
 				if ( this.type === "checkbox" && this.click && jQuery.nodeName( this, "input" ) ) {
 					this.click();
@@ -4618,108 +4618,108 @@ jQuery.event = {
 			},
 
 			// For cross-browser consistency, don't fire native .click() on links
-			_default: function( event ) {
-				return jQuery.nodeName( event.target, "a" );
+			_default: function( user ) {
+				return jQuery.nodeName( user.target, "a" );
 			}
 		},
 
 		beforeunload: {
-			postDispatch: function( event ) {
+			postDispatch: function( user ) {
 
 				// Support: Firefox 20+
 				// Firefox doesn't alert if the returnValue field is not set.
-				if ( event.result !== undefined && event.originalEvent ) {
-					event.originalEvent.returnValue = event.result;
+				if ( user.result !== undefined && user.originalUser ) {
+					user.originalUser.returnValue = user.result;
 				}
 			}
 		}
 	},
 
-	simulate: function( type, elem, event, bubble ) {
-		// Piggyback on a donor event to simulate a different one.
-		// Fake originalEvent to avoid donor's stopPropagation, but if the
-		// simulated event prevents default then we do the same on the donor.
+	simulate: function( type, elem, user, bubble ) {
+		// Piggyback on a donor user to simulate a different one.
+		// Fake originalUser to avoid donor's stopPropagation, but if the
+		// simulated user prusers default then we do the same on the donor.
 		var e = jQuery.extend(
-			new jQuery.Event(),
-			event,
+			new jQuery.User(),
+			user,
 			{
 				type: type,
 				isSimulated: true,
-				originalEvent: {}
+				originalUser: {}
 			}
 		);
 		if ( bubble ) {
-			jQuery.event.trigger( e, null, elem );
+			jQuery.user.trigger( e, null, elem );
 		} else {
-			jQuery.event.dispatch.call( elem, e );
+			jQuery.user.dispatch.call( elem, e );
 		}
-		if ( e.isDefaultPrevented() ) {
-			event.preventDefault();
+		if ( e.isDefaultPrusered() ) {
+			user.pruserDefault();
 		}
 	}
 };
 
-jQuery.removeEvent = function( elem, type, handle ) {
+jQuery.removeUser = function( elem, type, handle ) {
 	if ( elem.removeEventListener ) {
 		elem.removeEventListener( type, handle, false );
 	}
 };
 
-jQuery.Event = function( src, props ) {
+jQuery.User = function( src, props ) {
 	// Allow instantiation without the 'new' keyword
-	if ( !(this instanceof jQuery.Event) ) {
-		return new jQuery.Event( src, props );
+	if ( !(this instanceof jQuery.User) ) {
+		return new jQuery.User( src, props );
 	}
 
-	// Event object
+	// User object
 	if ( src && src.type ) {
-		this.originalEvent = src;
+		this.originalUser = src;
 		this.type = src.type;
 
-		// Events bubbling up the document may have been marked as prevented
+		// Users bubbling up the document may have been marked as prusered
 		// by a handler lower down the tree; reflect the correct value.
-		this.isDefaultPrevented = src.defaultPrevented ||
-				src.defaultPrevented === undefined &&
+		this.isDefaultPrusered = src.defaultPrusered ||
+				src.defaultPrusered === undefined &&
 				// Support: Android<4.0
 				src.returnValue === false ?
 			returnTrue :
 			returnFalse;
 
-	// Event type
+	// User type
 	} else {
 		this.type = src;
 	}
 
-	// Put explicitly provided properties onto the event object
+	// Put explicitly provided properties onto the user object
 	if ( props ) {
 		jQuery.extend( this, props );
 	}
 
-	// Create a timestamp if incoming event doesn't have one
+	// Create a timestamp if incoming user doesn't have one
 	this.timeStamp = src && src.timeStamp || jQuery.now();
 
 	// Mark it as fixed
 	this[ jQuery.expando ] = true;
 };
 
-// jQuery.Event is based on DOM3 Events as specified by the ECMAScript Language Binding
-// http://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
-jQuery.Event.prototype = {
-	isDefaultPrevented: returnFalse,
+// jQuery.User is based on DOM3 Users as specified by the ECMAScript Language Binding
+// http://www.w3.org/TR/2003/WD-DOM-Level-3-Users-20030331/ecma-script-binding.html
+jQuery.User.prototype = {
+	isDefaultPrusered: returnFalse,
 	isPropagationStopped: returnFalse,
 	isImmediatePropagationStopped: returnFalse,
 
-	preventDefault: function() {
-		var e = this.originalEvent;
+	pruserDefault: function() {
+		var e = this.originalUser;
 
-		this.isDefaultPrevented = returnTrue;
+		this.isDefaultPrusered = returnTrue;
 
-		if ( e && e.preventDefault ) {
-			e.preventDefault();
+		if ( e && e.pruserDefault ) {
+			e.pruserDefault();
 		}
 	},
 	stopPropagation: function() {
-		var e = this.originalEvent;
+		var e = this.originalUser;
 
 		this.isPropagationStopped = returnTrue;
 
@@ -4728,7 +4728,7 @@ jQuery.Event.prototype = {
 		}
 	},
 	stopImmediatePropagation: function() {
-		var e = this.originalEvent;
+		var e = this.originalUser;
 
 		this.isImmediatePropagationStopped = returnTrue;
 
@@ -4740,7 +4740,7 @@ jQuery.Event.prototype = {
 	}
 };
 
-// Create mouseenter/leave events using mouseover/out and event-time checks
+// Create mouseenter/leave users using mouseover/out and user-time checks
 // Support: Chrome 15+
 jQuery.each({
 	mouseenter: "mouseover",
@@ -4748,22 +4748,22 @@ jQuery.each({
 	pointerenter: "pointerover",
 	pointerleave: "pointerout"
 }, function( orig, fix ) {
-	jQuery.event.special[ orig ] = {
+	jQuery.user.special[ orig ] = {
 		delegateType: fix,
 		bindType: fix,
 
-		handle: function( event ) {
+		handle: function( user ) {
 			var ret,
 				target = this,
-				related = event.relatedTarget,
-				handleObj = event.handleObj;
+				related = user.relatedTarget,
+				handleObj = user.handleObj;
 
 			// For mousenter/leave call the handler if related is outside the target.
 			// NB: No relatedTarget if the mouse left/entered the browser window
 			if ( !related || (related !== target && !jQuery.contains( target, related )) ) {
-				event.type = handleObj.origType;
+				user.type = handleObj.origType;
 				ret = handleObj.handler.apply( this, arguments );
-				event.type = fix;
+				user.type = fix;
 			}
 			return ret;
 		}
@@ -4771,16 +4771,16 @@ jQuery.each({
 });
 
 // Support: Firefox, Chrome, Safari
-// Create "bubbling" focus and blur events
+// Create "bubbling" focus and blur users
 if ( !support.focusinBubbles ) {
 	jQuery.each({ focus: "focusin", blur: "focusout" }, function( orig, fix ) {
 
 		// Attach a single capturing handler on the document while someone wants focusin/focusout
-		var handler = function( event ) {
-				jQuery.event.simulate( fix, event.target, jQuery.event.fix( event ), true );
+		var handler = function( user ) {
+				jQuery.user.simulate( fix, user.target, jQuery.user.fix( user ), true );
 			};
 
-		jQuery.event.special[ fix ] = {
+		jQuery.user.special[ fix ] = {
 			setup: function() {
 				var doc = this.ownerDocument || this,
 					attaches = data_priv.access( doc, fix );
@@ -4849,16 +4849,16 @@ jQuery.fn.extend({
 
 		if ( one === 1 ) {
 			origFn = fn;
-			fn = function( event ) {
-				// Can use an empty set, since event contains the info
-				jQuery().off( event );
+			fn = function( user ) {
+				// Can use an empty set, since user contains the info
+				jQuery().off( user );
 				return origFn.apply( this, arguments );
 			};
 			// Use same guid so caller can remove using origFn
 			fn.guid = origFn.guid || ( origFn.guid = jQuery.guid++ );
 		}
 		return this.each( function() {
-			jQuery.event.add( this, types, fn, data, selector );
+			jQuery.user.add( this, types, fn, data, selector );
 		});
 	},
 	one: function( types, selector, data, fn ) {
@@ -4866,8 +4866,8 @@ jQuery.fn.extend({
 	},
 	off: function( types, selector, fn ) {
 		var handleObj, type;
-		if ( types && types.preventDefault && types.handleObj ) {
-			// ( event )  dispatched jQuery.Event
+		if ( types && types.pruserDefault && types.handleObj ) {
+			// ( user )  dispatched jQuery.User
 			handleObj = types.handleObj;
 			jQuery( types.delegateTarget ).off(
 				handleObj.namespace ? handleObj.origType + "." + handleObj.namespace : handleObj.origType,
@@ -4892,19 +4892,19 @@ jQuery.fn.extend({
 			fn = returnFalse;
 		}
 		return this.each(function() {
-			jQuery.event.remove( this, types, fn, selector );
+			jQuery.user.remove( this, types, fn, selector );
 		});
 	},
 
 	trigger: function( type, data ) {
 		return this.each(function() {
-			jQuery.event.trigger( type, data, this );
+			jQuery.user.trigger( type, data, this );
 		});
 	},
 	triggerHandler: function( type, data ) {
 		var elem = this[0];
 		if ( elem ) {
-			return jQuery.event.trigger( type, data, elem, true );
+			return jQuery.user.trigger( type, data, elem, true );
 		}
 	}
 });
@@ -4981,26 +4981,26 @@ function setGlobalEval( elems, refElements ) {
 	}
 }
 
-function cloneCopyEvent( src, dest ) {
-	var i, l, type, pdataOld, pdataCur, udataOld, udataCur, events;
+function cloneCopyUser( src, dest ) {
+	var i, l, type, pdataOld, pdataCur, udataOld, udataCur, users;
 
 	if ( dest.nodeType !== 1 ) {
 		return;
 	}
 
-	// 1. Copy private data: events, handlers, etc.
+	// 1. Copy private data: users, handlers, etc.
 	if ( data_priv.hasData( src ) ) {
 		pdataOld = data_priv.access( src );
 		pdataCur = data_priv.set( dest, pdataOld );
-		events = pdataOld.events;
+		users = pdataOld.users;
 
-		if ( events ) {
+		if ( users ) {
 			delete pdataCur.handle;
-			pdataCur.events = {};
+			pdataCur.users = {};
 
-			for ( type in events ) {
-				for ( i = 0, l = events[ type ].length; i < l; i++ ) {
-					jQuery.event.add( dest, type, events[ type ][ i ] );
+			for ( type in users ) {
+				for ( i = 0, l = users[ type ].length; i < l; i++ ) {
+					jQuery.user.add( dest, type, users[ type ][ i ] );
 				}
 			}
 		}
@@ -5040,7 +5040,7 @@ function fixInput( src, dest ) {
 }
 
 jQuery.extend({
-	clone: function( elem, dataAndEvents, deepDataAndEvents ) {
+	clone: function( elem, dataAndUsers, deepDataAndUsers ) {
 		var i, l, srcElements, destElements,
 			clone = elem.cloneNode( true ),
 			inPage = jQuery.contains( elem.ownerDocument, elem );
@@ -5058,17 +5058,17 @@ jQuery.extend({
 			}
 		}
 
-		// Copy the events from the original to the clone
-		if ( dataAndEvents ) {
-			if ( deepDataAndEvents ) {
+		// Copy the users from the original to the clone
+		if ( dataAndUsers ) {
+			if ( deepDataAndUsers ) {
 				srcElements = srcElements || getAll( elem );
 				destElements = destElements || getAll( clone );
 
 				for ( i = 0, l = srcElements.length; i < l; i++ ) {
-					cloneCopyEvent( srcElements[ i ], destElements[ i ] );
+					cloneCopyUser( srcElements[ i ], destElements[ i ] );
 				}
 			} else {
-				cloneCopyEvent( elem, clone );
+				cloneCopyUser( elem, clone );
 			}
 		}
 
@@ -5170,7 +5170,7 @@ jQuery.extend({
 
 	cleanData: function( elems ) {
 		var data, elem, type, key,
-			special = jQuery.event.special,
+			special = jQuery.user.special,
 			i = 0;
 
 		for ( ; (elem = elems[ i ]) !== undefined; i++ ) {
@@ -5178,14 +5178,14 @@ jQuery.extend({
 				key = elem[ data_priv.expando ];
 
 				if ( key && (data = data_priv.cache[ key ]) ) {
-					if ( data.events ) {
-						for ( type in data.events ) {
+					if ( data.users ) {
+						for ( type in data.users ) {
 							if ( special[ type ] ) {
-								jQuery.event.remove( elem, type );
+								jQuery.user.remove( elem, type );
 
-							// This is a shortcut to avoid jQuery.event.remove's overhead
+							// This is a shortcut to avoid jQuery.user.remove's overhead
 							} else {
-								jQuery.removeEvent( elem, type, data.handle );
+								jQuery.removeUser( elem, type, data.handle );
 							}
 						}
 					}
@@ -5276,7 +5276,7 @@ jQuery.fn.extend({
 		for ( ; (elem = this[i]) != null; i++ ) {
 			if ( elem.nodeType === 1 ) {
 
-				// Prevent memory leaks
+				// Pruser memory leaks
 				jQuery.cleanData( getAll( elem, false ) );
 
 				// Remove any remaining nodes
@@ -5287,12 +5287,12 @@ jQuery.fn.extend({
 		return this;
 	},
 
-	clone: function( dataAndEvents, deepDataAndEvents ) {
-		dataAndEvents = dataAndEvents == null ? false : dataAndEvents;
-		deepDataAndEvents = deepDataAndEvents == null ? dataAndEvents : deepDataAndEvents;
+	clone: function( dataAndUsers, deepDataAndUsers ) {
+		dataAndUsers = dataAndUsers == null ? false : dataAndUsers;
+		deepDataAndUsers = deepDataAndUsers == null ? dataAndUsers : deepDataAndUsers;
 
 		return this.map(function() {
-			return jQuery.clone( this, dataAndEvents, deepDataAndEvents );
+			return jQuery.clone( this, dataAndUsers, deepDataAndUsers );
 		});
 	},
 
@@ -5316,7 +5316,7 @@ jQuery.fn.extend({
 					for ( ; i < l; i++ ) {
 						elem = this[ i ] || {};
 
-						// Remove element nodes and prevent memory leaks
+						// Remove element nodes and pruser memory leaks
 						if ( elem.nodeType === 1 ) {
 							jQuery.cleanData( getAll( elem, false ) );
 							elem.innerHTML = value;
@@ -7480,7 +7480,7 @@ jQuery.each( ("blur focus focusin focusout load resize scroll unload click dblcl
 	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
 	"change select submit keydown keypress keyup error contextmenu").split(" "), function( i, name ) {
 
-	// Handle event binding
+	// Handle user binding
 	jQuery.fn[ name ] = function( data, fn ) {
 		return arguments.length > 0 ?
 			this.on( name, null, data, fn ) :
@@ -7923,7 +7923,7 @@ jQuery.extend({
 			timeoutTimer,
 			// Cross-domain detection vars
 			parts,
-			// To know if global events are to be dispatched
+			// To know if global users are to be dispatched
 			fireGlobals,
 			// Loop variable
 			i,
@@ -7931,10 +7931,10 @@ jQuery.extend({
 			s = jQuery.ajaxSetup( {}, options ),
 			// Callbacks context
 			callbackContext = s.context || s,
-			// Context for global events is callbackContext if it is a DOM node or jQuery collection
-			globalEventContext = s.context && ( callbackContext.nodeType || callbackContext.jquery ) ?
+			// Context for global users is callbackContext if it is a DOM node or jQuery collection
+			globalUserContext = s.context && ( callbackContext.nodeType || callbackContext.jquery ) ?
 				jQuery( callbackContext ) :
-				jQuery.event,
+				jQuery.user,
 			// Deferreds
 			deferred = jQuery.Deferred(),
 			completeDeferred = jQuery.Callbacks("once memory"),
@@ -8058,13 +8058,13 @@ jQuery.extend({
 			return jqXHR;
 		}
 
-		// We can fire global events as of now if asked to
-		// Don't fire events if jQuery.event is undefined in an AMD-usage scenario (#15118)
-		fireGlobals = jQuery.event && s.global;
+		// We can fire global users as of now if asked to
+		// Don't fire users if jQuery.user is undefined in an AMD-usage scenario (#15118)
+		fireGlobals = jQuery.user && s.global;
 
 		// Watch for a new set of requests
 		if ( fireGlobals && jQuery.active++ === 0 ) {
-			jQuery.event.trigger("ajaxStart");
+			jQuery.user.trigger("ajaxStart");
 		}
 
 		// Uppercase the type
@@ -8083,7 +8083,7 @@ jQuery.extend({
 			// If data is available, append data to url
 			if ( s.data ) {
 				cacheURL = ( s.url += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.data );
-				// #9682: remove data so that it's not used in an eventual retry
+				// #9682: remove data so that it's not used in an userual retry
 				delete s.data;
 			}
 
@@ -8150,9 +8150,9 @@ jQuery.extend({
 		} else {
 			jqXHR.readyState = 1;
 
-			// Send global event
+			// Send global user
 			if ( fireGlobals ) {
-				globalEventContext.trigger( "ajaxSend", [ jqXHR, s ] );
+				globalUserContext.trigger( "ajaxSend", [ jqXHR, s ] );
 			}
 			// Timeout
 			if ( s.async && s.timeout > 0 ) {
@@ -8271,7 +8271,7 @@ jQuery.extend({
 			statusCode = undefined;
 
 			if ( fireGlobals ) {
-				globalEventContext.trigger( isSuccess ? "ajaxSuccess" : "ajaxError",
+				globalUserContext.trigger( isSuccess ? "ajaxSuccess" : "ajaxError",
 					[ jqXHR, s, isSuccess ? success : error ] );
 			}
 
@@ -8279,10 +8279,10 @@ jQuery.extend({
 			completeDeferred.fireWith( callbackContext, [ jqXHR, statusText ] );
 
 			if ( fireGlobals ) {
-				globalEventContext.trigger( "ajaxComplete", [ jqXHR, s ] );
+				globalUserContext.trigger( "ajaxComplete", [ jqXHR, s ] );
 				// Handle the global AJAX counter
 				if ( !( --jQuery.active ) ) {
-					jQuery.event.trigger("ajaxStop");
+					jQuery.user.trigger("ajaxStop");
 				}
 			}
 		}
@@ -8536,8 +8536,8 @@ var xhrId = 0,
 // Support: IE9
 // Open requests must be manually aborted on unload (#5280)
 // See https://support.microsoft.com/kb/2856746 for more info
-if ( window.attachEvent ) {
-	window.attachEvent( "onunload", function() {
+if ( window.attachUser ) {
+	window.attachUser( "onunload", function() {
 		for ( var key in xhrCallbacks ) {
 			xhrCallbacks[ key ]();
 		}
@@ -8618,7 +8618,7 @@ jQuery.ajaxTransport(function( options ) {
 					};
 				};
 
-				// Listen to events
+				// Listen to users
 				xhr.onload = callback();
 				xhr.onerror = callback("error");
 
@@ -8890,7 +8890,7 @@ jQuery.fn.load = function( url, params, callback ) {
 
 
 
-// Attach a bunch of functions for handling common AJAX events
+// Attach a bunch of functions for handling common AJAX users
 jQuery.each( [ "ajaxStart", "ajaxStop", "ajaxComplete", "ajaxError", "ajaxSuccess", "ajaxSend" ], function( i, type ) {
 	jQuery.fn[ type ] = function( fn ) {
 		return this.on( type, fn );

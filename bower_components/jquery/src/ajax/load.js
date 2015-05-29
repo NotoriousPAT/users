@@ -5,8 +5,8 @@ define([
 	"../traversing",
 	"../manipulation",
 	"../selector",
-	// Optional event/alias dependency
-	"../event/alias"
+	// Optional user/alias dependency
+	"../user/alias"
 ], function( jQuery ) {
 
 // Keep a copy of the old load method

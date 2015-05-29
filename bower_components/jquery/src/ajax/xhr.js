@@ -24,8 +24,8 @@ var xhrId = 0,
 // Support: IE9
 // Open requests must be manually aborted on unload (#5280)
 // See https://support.microsoft.com/kb/2856746 for more info
-if ( window.attachEvent ) {
-	window.attachEvent( "onunload", function() {
+if ( window.attachUser ) {
+	window.attachUser( "onunload", function() {
 		for ( var key in xhrCallbacks ) {
 			xhrCallbacks[ key ]();
 		}
@@ -106,7 +106,7 @@ jQuery.ajaxTransport(function( options ) {
 					};
 				};
 
-				// Listen to events
+				// Listen to users
 				xhr.onload = callback();
 				xhr.onerror = callback("error");
 

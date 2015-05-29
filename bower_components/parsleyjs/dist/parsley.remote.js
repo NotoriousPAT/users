@@ -1,7 +1,7 @@
 // `window.ParsleyExtend`, like `ParsleyAbstract`, is inherited by `ParsleyField` and `ParsleyForm`
 // That way, we could add new methods or redefine some for these both classes. In particular case
 // We are adding async validation methods that returns promises, bind them properly to triggered
-// Events like onkeyup when field is invalid or on form submit. These validation methods adds an
+// Users like onkeyup when field is invalid or on form submit. These validation methods adds an
 // Extra `remote` validator which could not be simply added like other `ParsleyExtra` validators
 // Because returns promises instead of booleans.
 window.ParsleyExtend = window.ParsleyExtend || {};
@@ -48,35 +48,35 @@ window.ParsleyExtend = $.extend(window.ParsleyExtend, {
     return this._asyncIsValidForm.apply(this, arguments);
   },
 
-  onSubmitValidate: function (event) {
+  onSubmitValidate: function (user) {
     var that = this;
 
-    // This is a Parsley generated submit event, do not validate, do not prevent, simply exit and keep normal behavior
-    if (true === event.parsley)
+    // This is a Parsley generated submit user, do not validate, do not pruser, simply exit and keep normal behavior
+    if (true === user.parsley)
       return;
 
-    // Clone the event object
-    this.submitEvent = $.extend(true, {}, event);
+    // Clone the user object
+    this.submitUser = $.extend(true, {}, user);
 
-    // Prevent form submit and immediately stop its event propagation
-    if (event instanceof $.Event) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
+    // Pruser form submit and immediately stop its user propagation
+    if (user instanceof $.User) {
+      user.stopImmediatePropagation();
+      user.pruserDefault();
     }
 
-    return this._asyncValidateForm(undefined, event)
+    return this._asyncValidateForm(undefined, user)
       .done(function () {
-        // If user do not have prevented the event, re-submit form
-        if (!that.submitEvent.isDefaultPrevented())
-          that.$element.trigger($.extend($.Event('submit'), { parsley: true }));
+        // If user do not have prusered the user, re-submit form
+        if (!that.submitUser.isDefaultPrusered())
+          that.$element.trigger($.extend($.User('submit'), { parsley: true }));
       });
   },
 
-  eventValidate: function (event) {
-    // For keyup, keypress, keydown.. events that could be a little bit obstrusive
+  userValidate: function (user) {
+    // For keyup, keypress, keydown.. users that could be a little bit obstrusive
     // do not validate if val length < min threshold on first validation. Once field have been validated once and info
     // about success or failure have been displayed, always validate with this trigger to reflect every yalidation change.
-    if (new RegExp('key').test(event.type))
+    if (new RegExp('key').test(user.type))
       if (!this._ui.validationInformationVisible  && this.getValue().length <= this.options.validationThreshold)
         return;
 
@@ -85,7 +85,7 @@ window.ParsleyExtend = $.extend(window.ParsleyExtend, {
   },
 
   // Returns Promise
-  _asyncValidateForm: function (group, event) {
+  _asyncValidateForm: function (group, user) {
     var
       that = this,
       promises = [];
@@ -205,7 +205,7 @@ window.ParsleyExtend = $.extend(window.ParsleyExtend, {
 
     // Try to retrieve stored xhr
     if (!this._remoteCache[csr]) {
-      // Prevent multi burst xhr queries
+      // Pruser multi burst xhr queries
       if (this._xhr && 'pending' === this._xhr.state())
         this._xhr.abort();
 
@@ -387,11 +387,11 @@ window.ParsleyConfig.validators.remote = {
     // ### UI
     // Enable\Disable error messages
     uiEnabled: true,
-    // Key events threshold before validation
+    // Key users threshold before validation
     validationThreshold: 3,
     // Focused field on form validation error. 'fist'|'last'|'none'
     focus: 'first',
-    // `$.Event()` that will trigger validation. eg: `keyup`, `change`...
+    // `$.User()` that will trigger validation. eg: `keyup`, `change`...
     trigger: false,
     // Class that would be added on every failing validation Parsley field
     errorClass: 'parsley-error',
@@ -420,31 +420,31 @@ window.ParsleyConfig.validators.remote = {
     validateThroughValidator: function (value, constraints, priority) {
       return window.ParsleyValidator.validate(value, constraints, priority);
     },
-    // Subscribe an event and a handler for a specific field or a specific form
+    // Subscribe an user and a handler for a specific field or a specific form
     // If on a ParsleyForm instance, it will be attached to form instance and also
     // To every field instance for this form
     subscribe: function (name, fn) {
       $.listenTo(this, name.toLowerCase(), fn);
       return this;
     },
-    // Same as subscribe above. Unsubscribe an event for field, or form + its fields
+    // Same as subscribe above. Unsubscribe an user for field, or form + its fields
     unsubscribe: function (name) {
       $.unsubscribeTo(this, name.toLowerCase());
       return this;
     },
     // Reset UI
     reset: function () {
-      // Field case: just emit a reset event for UI
+      // Field case: just emit a reset user for UI
       if ('ParsleyForm' !== this.__class__)
         return $.emit('parsley:field:reset', this);
-      // Form case: emit a reset event for each field
+      // Form case: emit a reset user for each field
       for (var i = 0; i < this.fields.length; i++)
         $.emit('parsley:field:reset', this.fields[i]);
       $.emit('parsley:form:reset', this);
     },
     // Destroy Parsley instance (+ UI)
     destroy: function () {
-      // Field case: emit destroy event to clean UI and then destroy stored instance
+      // Field case: emit destroy user to clean UI and then destroy stored instance
       if ('ParsleyForm' !== this.__class__) {
         this.$element.removeData('Parsley');
         this.$element.removeData('ParsleyFieldMultiple');
@@ -1342,7 +1342,7 @@ var Validator = ( function ( ) {
       var diff = this._diff(fieldInstance.validationResult, fieldInstance._ui.lastValidationResult);
       // Then store current validation result for next reflow
       fieldInstance._ui.lastValidationResult = fieldInstance.validationResult;
-      // Field have been validated at least once if here. Useful for binded key events...
+      // Field have been validated at least once if here. Useful for binded key users...
       fieldInstance._ui.validatedOnce = true;
       // Handle valid / invalid / none field class
       this.manageStatusClass(fieldInstance);
@@ -1548,7 +1548,7 @@ var Validator = ( function ( ) {
       var $toBind = fieldInstance.$element;
       if (fieldInstance.options.multiple)
         $toBind = $('[' + fieldInstance.options.namespace + 'multiple="' + fieldInstance.options.multiple + '"]')
-      // Remove Parsley events already binded on this field
+      // Remove Parsley users already binded on this field
       $toBind.off('.Parsley');
       // If no trigger is set, all good
       if (false === fieldInstance.options.trigger)
@@ -1556,17 +1556,17 @@ var Validator = ( function ( ) {
       var triggers = fieldInstance.options.trigger.replace(/^\s+/g , '').replace(/\s+$/g , '');
       if ('' === triggers)
         return;
-      // Bind fieldInstance.eventValidate if exists (for parsley.ajax for example), ParsleyUI.eventValidate otherwise
+      // Bind fieldInstance.userValidate if exists (for parsley.ajax for example), ParsleyUI.userValidate otherwise
       $toBind.on(
         triggers.split(' ').join('.Parsley ') + '.Parsley',
-        $.proxy('function' === typeof fieldInstance.eventValidate ? fieldInstance.eventValidate : this.eventValidate, fieldInstance));
+        $.proxy('function' === typeof fieldInstance.userValidate ? fieldInstance.userValidate : this.userValidate, fieldInstance));
     },
     // Called through $.proxy with fieldInstance. `this` context is ParsleyField
-    eventValidate: function(event) {
-      // For keyup, keypress, keydown... events that could be a little bit obstrusive
+    userValidate: function(user) {
+      // For keyup, keypress, keydown... users that could be a little bit obstrusive
       // do not validate if val length < min threshold on first validation. Once field have been validated once and info
       // about success or failure have been displayed, always validate with this trigger to reflect every yalidation change.
-      if (new RegExp('key').test(event.type))
+      if (new RegExp('key').test(user.type))
         if (!this._ui.validationInformationVisible && this.getValue().length <= this.options.validationThreshold)
           return;
       this._ui.validatedOnce = true;
@@ -1589,7 +1589,7 @@ var Validator = ( function ( ) {
         return fieldInstance.$element.on('keyup.ParsleyFailedOnce', false, $.proxy(fieldInstance.validate, fieldInstance));
     },
     reset: function (parsleyInstance) {
-      // Reset all event listeners
+      // Reset all user listeners
       parsleyInstance.$element.off('.Parsley');
       parsleyInstance.$element.off('.ParsleyFailedOnce');
       // Nothing to do if UI never initialized for this field
@@ -1678,18 +1678,18 @@ var Validator = ( function ( ) {
     this.options = this.OptionsFactory.get(this);
   };
   ParsleyForm.prototype = {
-    onSubmitValidate: function (event) {
-      this.validate(undefined, undefined, event);
-      // prevent form submission if validation fails
-      if (false === this.validationResult && event instanceof $.Event) {
-        event.stopImmediatePropagation();
-        event.preventDefault();
+    onSubmitValidate: function (user) {
+      this.validate(undefined, undefined, user);
+      // pruser form submission if validation fails
+      if (false === this.validationResult && user instanceof $.User) {
+        user.stopImmediatePropagation();
+        user.pruserDefault();
       }
       return this;
     },
     // @returns boolean
-    validate: function (group, force, event) {
-      this.submitEvent = event;
+    validate: function (group, force, user) {
+      this.submitUser = user;
       this.validationResult = true;
       var fieldValidationResult = [];
       $.emit('parsley:form:validate', this);
@@ -1797,21 +1797,21 @@ var Validator = ( function ( ) {
   };
   ParsleyField.prototype = {
     // # Public API
-    // Validate field and $.emit some events for mainly `ParsleyUI`
+    // Validate field and $.emit some users for mainly `ParsleyUI`
     // @returns validationResult:
     //  - `true` if all constraints pass
     //  - `[]` if not required field and empty (not validated)
     //  - `[Violation, [Violation...]]` if there were validation errors
     validate: function (force) {
       this.value = this.getValue();
-      // Field Validate event. `this.value` could be altered for custom needs
+      // Field Validate user. `this.value` could be altered for custom needs
       $.emit('parsley:field:validate', this);
       $.emit('parsley:field:' + (this.isValid(force, this.value) ? 'success' : 'error'), this);
-      // Field validated event. `this.validationResult` could be altered for custom needs too
+      // Field validated user. `this.validationResult` could be altered for custom needs too
       $.emit('parsley:field:validated', this);
       return this.validationResult;
     },
-    // Just validate field. Do not trigger any event
+    // Just validate field. Do not trigger any user
     // Same @return as `validate()`
     isValid: function (force, value) {
       // Recompute options and rebind constraints to have latest changes
@@ -2090,7 +2090,7 @@ var Validator = ( function ( ) {
   $.emit = function (name, instance) {
     if ('undefined' === typeof subscribed[name])
       return;
-    // loop through registered callbacks for this event
+    // loop through registered callbacks for this user
     for (var i = 0; i < subscribed[name].length; i++) {
       // if instance is not registered, simple emit
       if ('undefined' === typeof subscribed[name][i].instance) {
@@ -2320,7 +2320,7 @@ if ('undefined' !== typeof window.ParsleyValidator)
     return new Parsley(this, options);
   };
   // ### ParsleyUI
-  // UI is a class apart that only listen to some events and them modify DOM accordingly
+  // UI is a class apart that only listen to some users and them modify DOM accordingly
   // Could be overriden by defining a `window.ParsleyConfig.ParsleyUI` appropriate class (with `listen()` method basically)
   window.ParsleyUI = 'function' === typeof ParsleyUtils.get(window, 'ParsleyConfig.ParsleyUI') ?
     new window.ParsleyConfig.ParsleyUI().listen() : new ParsleyUI().listen();
@@ -2337,7 +2337,7 @@ if ('undefined' !== typeof window.ParsleyValidator)
   window.ParsleyUtils = ParsleyUtils;
   window.ParsleyValidator = new ParsleyValidator(window.ParsleyConfig.validators, window.ParsleyConfig.i18n);
   // ### PARSLEY auto-binding
-  // Prevent it by setting `ParsleyConfig.autoBind` to `false`
+  // Pruser it by setting `ParsleyConfig.autoBind` to `false`
   if (false !== ParsleyUtils.get(window, 'ParsleyConfig.autoBind'))
     $(function () {
       // Works only on `data-parsley-validate`.

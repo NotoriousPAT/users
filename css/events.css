@@ -66,11 +66,11 @@
   float: right;
 }
 
-.user {
+.event {
   margin-bottom: 0.5em;
 }
 
-  .user-link {
+  .event-link {
     color: inherit;
     display: block;
     padding: 0.75em;
@@ -80,13 +80,13 @@
     transition: all 0.15s;
   }
 
-  .user-link:hover {
+  .event-link:hover {
     background: #74BEBE;
     border-color: #74BEBE;
     color: white;
   }
 
-  .user-email {
+  .event-email {
     display: block;
     font-size: 0.9em;
     opacity: 0.65;

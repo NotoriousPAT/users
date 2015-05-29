@@ -23,13 +23,13 @@ define('parsley/defaults', function () {
     // Enable\Disable error messages
     uiEnabled: true,
 
-    // Key events threshold before validation
+    // Key users threshold before validation
     validationThreshold: 3,
 
     // Focused field on form validation error. 'fist'|'last'|'none'
     focus: 'first',
 
-    // `$.Event()` that will trigger validation. eg: `keyup`, `change`...
+    // `$.User()` that will trigger validation. eg: `keyup`, `change`...
     trigger: false,
 
     // Class that would be added on every failing validation Parsley field

@@ -17,21 +17,21 @@ define('parsley/form', [
   };
 
   ParsleyForm.prototype = {
-    onSubmitValidate: function (event) {
-      this.validate(undefined, undefined, event);
+    onSubmitValidate: function (user) {
+      this.validate(undefined, undefined, user);
 
-      // prevent form submission if validation fails
-      if (false === this.validationResult && event instanceof $.Event) {
-        event.stopImmediatePropagation();
-        event.preventDefault();
+      // pruser form submission if validation fails
+      if (false === this.validationResult && user instanceof $.User) {
+        user.stopImmediatePropagation();
+        user.pruserDefault();
       }
 
       return this;
     },
 
     // @returns boolean
-    validate: function (group, force, event) {
-      this.submitEvent = event;
+    validate: function (group, force, user) {
+      this.submitUser = user;
       this.validationResult = true;
 
       var fieldValidationResult = [];

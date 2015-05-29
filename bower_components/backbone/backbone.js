@@ -69,39 +69,39 @@
   // form param named `model`.
   Backbone.emulateJSON = false;
 
-  // Backbone.Events
+  // Backbone.Users
   // ---------------
 
   // A module that can be mixed in to *any object* in order to provide it with
-  // custom events. You may bind with `on` or remove with `off` callback
-  // functions to an event; `trigger`-ing an event fires all callbacks in
+  // custom users. You may bind with `on` or remove with `off` callback
+  // functions to an user; `trigger`-ing an user fires all callbacks in
   // succession.
   //
   //     var object = {};
-  //     _.extend(object, Backbone.Events);
+  //     _.extend(object, Backbone.Users);
   //     object.on('expand', function(){ alert('expanded'); });
   //     object.trigger('expand');
   //
-  var Events = Backbone.Events = {};
+  var Users = Backbone.Users = {};
 
-  // Regular expression used to split event strings.
-  var eventSplitter = /\s+/;
+  // Regular expression used to split user strings.
+  var userSplitter = /\s+/;
 
-  // Iterates over the standard `event, callback` (as well as the fancy multiple
-  // space-separated events `"change blur", callback` and jQuery-style event
-  // maps `{event: callback}`), reducing them by manipulating `memo`.
-  // Passes a normalized single event name and callback, as well as any
+  // Iterates over the standard `user, callback` (as well as the fancy multiple
+  // space-separated users `"change blur", callback` and jQuery-style user
+  // maps `{user: callback}`), reducing them by manipulating `memo`.
+  // Passes a normalized single user name and callback, as well as any
   // optional `opts`.
-  var eventsApi = function(iteratee, memo, name, callback, opts) {
+  var usersApi = function(iteratee, memo, name, callback, opts) {
     var i = 0, names;
     if (name && typeof name === 'object') {
-      // Handle event maps.
+      // Handle user maps.
       for (names = _.keys(name); i < names.length ; i++) {
         memo = iteratee(memo, names[i], name[names[i]], opts);
       }
-    } else if (name && eventSplitter.test(name)) {
-      // Handle space separated event names.
-      for (names = name.split(eventSplitter); i < names.length; i++) {
+    } else if (name && userSplitter.test(name)) {
+      // Handle space separated user names.
+      for (names = name.split(userSplitter); i < names.length; i++) {
         memo = iteratee(memo, names[i], callback, opts);
       }
     } else {
@@ -110,16 +110,16 @@
     return memo;
   };
 
-  // Bind an event to a `callback` function. Passing `"all"` will bind
-  // the callback to all events fired.
-  Events.on = function(name, callback, context) {
+  // Bind an user to a `callback` function. Passing `"all"` will bind
+  // the callback to all users fired.
+  Users.on = function(name, callback, context) {
     return internalOn(this, name, callback, context);
   };
 
   // An internal use `on` function, used to guard the `listening` argument from
   // the public API.
   var internalOn = function(obj, name, callback, context, listening) {
-    obj._events = eventsApi(onApi, obj._events || {}, name, callback, {
+    obj._users = usersApi(onApi, obj._users || {}, name, callback, {
         context: context,
         ctx: obj,
         listening: listening
@@ -134,14 +134,14 @@
   };
 
   // Inversion-of-control versions of `on`. Tell *this* object to listen to
-  // an event in another object... keeping track of what it's listening to.
-  Events.listenTo =  function(obj, name, callback) {
+  // an user in another object... keeping track of what it's listening to.
+  Users.listenTo =  function(obj, name, callback) {
     if (!obj) return this;
     var id = obj._listenId || (obj._listenId = _.uniqueId('l'));
     var listeningTo = this._listeningTo || (this._listeningTo = {});
     var listening = listeningTo[id];
 
-    // This object is not listening to any other events on `obj` yet.
+    // This object is not listening to any other users on `obj` yet.
     // Setup the necessary references to track the listening callbacks.
     if (!listening) {
       var thisId = this._listenId || (this._listenId = _.uniqueId('l'));
@@ -153,34 +153,34 @@
     return this;
   };
 
-  // The reducing API that adds a callback to the `events` object.
-  var onApi = function(events, name, callback, options) {
+  // The reducing API that adds a callback to the `users` object.
+  var onApi = function(users, name, callback, options) {
     if (callback) {
-      var handlers = events[name] || (events[name] = []);
+      var handlers = users[name] || (users[name] = []);
       var context = options.context, ctx = options.ctx, listening = options.listening;
       if (listening) listening.count++;
 
       handlers.push({ callback: callback, context: context, ctx: context || ctx, listening: listening });
     }
-    return events;
+    return users;
   };
 
   // Remove one or many callbacks. If `context` is null, removes all
   // callbacks with that function. If `callback` is null, removes all
-  // callbacks for the event. If `name` is null, removes all bound
-  // callbacks for all events.
-  Events.off =  function(name, callback, context) {
-    if (!this._events) return this;
-    this._events = eventsApi(offApi, this._events, name, callback, {
+  // callbacks for the user. If `name` is null, removes all bound
+  // callbacks for all users.
+  Users.off =  function(name, callback, context) {
+    if (!this._users) return this;
+    this._users = usersApi(offApi, this._users, name, callback, {
         context: context,
         listeners: this._listeners
     });
     return this;
   };
 
-  // Tell this object to stop listening to either specific events ... or
+  // Tell this object to stop listening to either specific users ... or
   // to every object it's currently listening to.
-  Events.stopListening =  function(obj, name, callback) {
+  Users.stopListening =  function(obj, name, callback) {
     var listeningTo = this._listeningTo;
     if (!listeningTo) return this;
 
@@ -200,15 +200,15 @@
     return this;
   };
 
-  // The reducing API that removes a callback from the `events` object.
-  var offApi = function(events, name, callback, options) {
-    // No events to consider.
-    if (!events) return;
+  // The reducing API that removes a callback from the `users` object.
+  var offApi = function(users, name, callback, options) {
+    // No users to consider.
+    if (!users) return;
 
     var i = 0, length, listening;
     var context = options.context, listeners = options.listeners;
 
-    // Delete all events listeners and "drop" events.
+    // Delete all users listeners and "drop" users.
     if (!name && !callback && !context) {
       var ids = _.keys(listeners);
       for (; i < ids.length; i++) {
@@ -219,15 +219,15 @@
       return;
     }
 
-    var names = name ? [name] : _.keys(events);
+    var names = name ? [name] : _.keys(users);
     for (; i < names.length; i++) {
       name = names[i];
-      var handlers = events[name];
+      var handlers = users[name];
 
-      // Bail out if there are no events stored.
+      // Bail out if there are no users stored.
       if (!handlers) break;
 
-      // Replace events if there are any remaining.  Otherwise, clean up.
+      // Replace users if there are any remaining.  Otherwise, clean up.
       var remaining = [];
       for (var j = 0; j < handlers.length; j++) {
         var handler = handlers[j];
@@ -246,34 +246,34 @@
         }
       }
 
-      // Update tail event if the list has any events.  Otherwise, clean up.
+      // Update tail user if the list has any users.  Otherwise, clean up.
       if (remaining.length) {
-        events[name] = remaining;
+        users[name] = remaining;
       } else {
-        delete events[name];
+        delete users[name];
       }
     }
-    if (_.size(events)) return events;
+    if (_.size(users)) return users;
   };
 
-  // Bind an event to only be triggered a single time. After the first time
-  // the callback is invoked, it will be removed. When multiple events are
-  // passed in using the space-separated syntax, the event will fire once for every
-  // event you passed in, not once for a combination of all events
-  Events.once =  function(name, callback, context) {
-    // Map the event into a `{event: once}` object.
-    var events = eventsApi(onceMap, {}, name, callback, _.bind(this.off, this));
-    return this.on(events, void 0, context);
+  // Bind an user to only be triggered a single time. After the first time
+  // the callback is invoked, it will be removed. When multiple users are
+  // passed in using the space-separated syntax, the user will fire once for every
+  // user you passed in, not once for a combination of all users
+  Users.once =  function(name, callback, context) {
+    // Map the user into a `{user: once}` object.
+    var users = usersApi(onceMap, {}, name, callback, _.bind(this.off, this));
+    return this.on(users, void 0, context);
   };
 
   // Inversion-of-control versions of `once`.
-  Events.listenToOnce =  function(obj, name, callback) {
-    // Map the event into a `{event: once}` object.
-    var events = eventsApi(onceMap, {}, name, callback, _.bind(this.stopListening, this, obj));
-    return this.listenTo(obj, events);
+  Users.listenToOnce =  function(obj, name, callback) {
+    // Map the user into a `{user: once}` object.
+    var users = usersApi(onceMap, {}, name, callback, _.bind(this.stopListening, this, obj));
+    return this.listenTo(obj, users);
   };
 
-  // Reduces the event callbacks into a map of `{event: onceWrapper}`.
+  // Reduces the user callbacks into a map of `{user: onceWrapper}`.
   // `offer` unbinds the `onceWrapper` after it as been called.
   var onceMap = function(map, name, callback, offer) {
     if (callback) {
@@ -286,44 +286,44 @@
     return map;
   };
 
-  // Trigger one or many events, firing all bound callbacks. Callbacks are
-  // passed the same arguments as `trigger` is, apart from the event name
+  // Trigger one or many users, firing all bound callbacks. Callbacks are
+  // passed the same arguments as `trigger` is, apart from the user name
   // (unless you're listening on `"all"`, which will cause your callback to
-  // receive the true name of the event as the first argument).
-  Events.trigger =  function(name) {
-    if (!this._events) return this;
+  // receive the true name of the user as the first argument).
+  Users.trigger =  function(name) {
+    if (!this._users) return this;
 
     var length = Math.max(0, arguments.length - 1);
     var args = Array(length);
     for (var i = 0; i < length; i++) args[i] = arguments[i + 1];
 
-    eventsApi(triggerApi, this._events, name, void 0, args);
+    usersApi(triggerApi, this._users, name, void 0, args);
     return this;
   };
 
-  // Handles triggering the appropriate event callbacks.
-  var triggerApi = function(objEvents, name, cb, args) {
-    if (objEvents) {
-      var events = objEvents[name];
-      var allEvents = objEvents.all;
-      if (events && allEvents) allEvents = allEvents.slice();
-      if (events) triggerEvents(events, args);
-      if (allEvents) triggerEvents(allEvents, [name].concat(args));
+  // Handles triggering the appropriate user callbacks.
+  var triggerApi = function(objUsers, name, cb, args) {
+    if (objUsers) {
+      var users = objUsers[name];
+      var allUsers = objUsers.all;
+      if (users && allUsers) allUsers = allUsers.slice();
+      if (users) triggerUsers(users, args);
+      if (allUsers) triggerUsers(allUsers, [name].concat(args));
     }
-    return objEvents;
+    return objUsers;
   };
 
   // A difficult-to-believe, but optimized internal dispatch function for
-  // triggering events. Tries to keep the usual cases speedy (most internal
-  // Backbone events have 3 arguments).
-  var triggerEvents = function(events, args) {
-    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
+  // triggering users. Tries to keep the usual cases speedy (most internal
+  // Backbone users have 3 arguments).
+  var triggerUsers = function(users, args) {
+    var ev, i = -1, l = users.length, a1 = args[0], a2 = args[1], a3 = args[2];
     switch (args.length) {
-      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
-      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
-      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
-      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
-      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args); return;
+      case 0: while (++i < l) (ev = users[i]).callback.call(ev.ctx); return;
+      case 1: while (++i < l) (ev = users[i]).callback.call(ev.ctx, a1); return;
+      case 2: while (++i < l) (ev = users[i]).callback.call(ev.ctx, a1, a2); return;
+      case 3: while (++i < l) (ev = users[i]).callback.call(ev.ctx, a1, a2, a3); return;
+      default: while (++i < l) (ev = users[i]).callback.apply(ev.ctx, args); return;
     }
   };
 
@@ -357,12 +357,12 @@
   };
 
   // Aliases for backwards compatibility.
-  Events.bind   = Events.on;
-  Events.unbind = Events.off;
+  Users.bind   = Users.on;
+  Users.unbind = Users.off;
 
-  // Allow the `Backbone` object to serve as a global event bus, for folks who
+  // Allow the `Backbone` object to serve as a global user bus, for folks who
   // want global "pubsub" in a convenient place.
-  _.extend(Backbone, Events);
+  _.extend(Backbone, Users);
 
   // Backbone.Model
   // --------------
@@ -388,7 +388,7 @@
   };
 
   // Attach all inheritable methods to the Model prototype.
-  _.extend(Model.prototype, Events, {
+  _.extend(Model.prototype, Users, {
 
     // A hash of attributes whose current and previous value differ.
     changed: null,
@@ -497,7 +497,7 @@
       }
 
       // You might be wondering why there's a `while` loop here. Changes can
-      // be recursively nested within `"change"` events.
+      // be recursively nested within `"change"` users.
       if (changing) return this;
       if (!silent) {
         while (this._pending) {
@@ -524,7 +524,7 @@
       return this.set(attrs, _.extend({}, options, {unset: true}));
     },
 
-    // Determine if the model has changed since the last `"change"` event.
+    // Determine if the model has changed since the last `"change"` user.
     // If you specify an attribute name, determine if that attribute has changed.
     hasChanged: function(attr) {
       if (attr == null) return !_.isEmpty(this.changed);
@@ -549,20 +549,20 @@
     },
 
     // Get the previous value of an attribute, recorded at the time the last
-    // `"change"` event was fired.
+    // `"change"` user was fired.
     previous: function(attr) {
       if (attr == null || !this._previousAttributes) return null;
       return this._previousAttributes[attr];
     },
 
     // Get all of the attributes of the model at the time of the previous
-    // `"change"` event.
+    // `"change"` user.
     previousAttributes: function() {
       return _.clone(this._previousAttributes);
     },
 
     // Fetch the model from the server, merging the response with the model's
-    // local attributes. Any changed attributes will trigger a "change" event.
+    // local attributes. Any changed attributes will trigger a "change" user.
     fetch: function(options) {
       options = options ? _.clone(options) : {};
       if (options.parse === void 0) options.parse = true;
@@ -702,7 +702,7 @@
     },
 
     // Run validation against the next complete set of model attributes,
-    // returning `true` if all is well. Otherwise, fire an `"invalid"` event.
+    // returning `true` if all is well. Otherwise, fire an `"invalid"` user.
     _validate: function(attrs, options) {
       if (!options.validate || !this.validate) return true;
       attrs = _.extend({}, this.attributes, attrs);
@@ -748,7 +748,7 @@
   var addOptions = {add: true, remove: false};
 
   // Define the Collection's inheritable methods.
-  _.extend(Collection.prototype, Events, {
+  _.extend(Collection.prototype, Users, {
 
     // The default model for a collection is just a **Backbone.Model**.
     // This should be overridden in most cases.
@@ -804,12 +804,12 @@
       var order = !sortable && add && remove ? [] : false;
       var orderChanged = false;
 
-      // Turn bare objects into model references, and prevent invalid models
+      // Turn bare objects into model references, and pruser invalid models
       // from being added.
       for (var i = 0; i < models.length; i++) {
         attrs = models[i];
 
-        // If a duplicate is found, prevent it from being added and
+        // If a duplicate is found, pruser it from being added and
         // optionally merge it into the existing model.
         if (existing = this.get(attrs)) {
           if (remove) modelMap[existing.cid] = true;
@@ -871,7 +871,7 @@
       // Silently sort the collection if appropriate.
       if (sort) this.sort({silent: true});
 
-      // Unless silenced, it's time to fire all appropriate add/sort events.
+      // Unless silenced, it's time to fire all appropriate add/sort users.
       if (!options.silent) {
         var addOpts = at != null ? _.clone(options) : options;
         for (var i = 0; i < toAdd.length; i++) {
@@ -888,7 +888,7 @@
 
     // When you have more items than you want to add or remove individually,
     // you can reset the entire set with a new list of models, without firing
-    // any granular `add` or `remove` events. Fires `reset` when finished.
+    // any granular `add` or `remove` users. Fires `reset` when finished.
     // Useful for bulk operations and optimizations.
     reset: function(models, options) {
       options = options ? _.clone(options) : {};
@@ -1061,7 +1061,7 @@
     },
 
     // Internal method called by both remove and set. Does not trigger any
-    // additional events. Returns true if anything was actually removed.
+    // additional users. Returns true if anything was actually removed.
     _removeModels: function(models, options) {
       var i, l, index, model, removed = false;
       for (var i = 0, j = 0; i < models.length; i++) {
@@ -1098,23 +1098,23 @@
       this._byId[model.cid] = model;
       var id = this.modelId(model.attributes);
       if (id != null) this._byId[id] = model;
-      model.on('all', this._onModelEvent, this);
+      model.on('all', this._onModelUser, this);
     },
 
     // Internal method to sever a model's ties to a collection.
     _removeReference: function(model, options) {
       if (this === model.collection) delete model.collection;
-      model.off('all', this._onModelEvent, this);
+      model.off('all', this._onModelUser, this);
     },
 
-    // Internal method called every time a model in the set fires an event.
+    // Internal method called every time a model in the set fires an user.
     // Sets need to update their indexes when models change ids. All other
-    // events simply proxy through. "add" and "remove" events that originate
+    // users simply proxy through. "add" and "remove" users that originate
     // in other collections are ignored.
-    _onModelEvent: function(event, model, collection, options) {
-      if ((event === 'add' || event === 'remove') && collection !== this) return;
-      if (event === 'destroy') this.remove(model, options);
-      if (event === 'change') {
+    _onModelUser: function(user, model, collection, options) {
+      if ((user === 'add' || user === 'remove') && collection !== this) return;
+      if (user === 'destroy') this.remove(model, options);
+      if (user === 'change') {
         var prevId = this.modelId(model.previousAttributes());
         var id = this.modelId(model.attributes);
         if (prevId !== id) {
@@ -1162,7 +1162,7 @@
   // is simply a JavaScript object that represents a logical chunk of UI in the
   // DOM. This might be a single item, an entire list, a sidebar or panel, or
   // even the surrounding frame which wraps your whole app. Defining a chunk of
-  // UI as a **View** allows you to define your DOM events declaratively, without
+  // UI as a **View** allows you to define your DOM users declaratively, without
   // having to worry about render order ... and makes it easy for the view to
   // react to specific changes in the state of your models.
 
@@ -1177,13 +1177,13 @@
   };
 
   // Cached regex to split keys for `delegate`.
-  var delegateEventSplitter = /^(\S+)\s*(.*)$/;
+  var delegateUserSplitter = /^(\S+)\s*(.*)$/;
 
   // List of view options to be merged as properties.
-  var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
+  var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'users'];
 
   // Set up all inheritable **Backbone.View** properties and methods.
-  _.extend(View.prototype, Events, {
+  _.extend(View.prototype, Users, {
 
     // The default `tagName` of a View's element is `"div"`.
     tagName: 'div',
@@ -1206,14 +1206,14 @@
     },
 
     // Remove this view by taking the element out of the DOM, and removing any
-    // applicable Backbone.Events listeners.
+    // applicable Backbone.Users listeners.
     remove: function() {
       this._removeElement();
       this.stopListening();
       return this;
     },
 
-    // Remove this view's element from the document and all event listeners
+    // Remove this view's element from the document and all user listeners
     // attached to it. Exposed for subclasses using an alternative DOM
     // manipulation API.
     _removeElement: function() {
@@ -1221,11 +1221,11 @@
     },
 
     // Change the view's element (`this.el` property) and re-delegate the
-    // view's events on the new element.
+    // view's users on the new element.
     setElement: function(element) {
-      this.undelegateEvents();
+      this.undelegateUsers();
       this._setElement(element);
-      this.delegateEvents();
+      this.delegateUsers();
       return this;
     },
 
@@ -1239,9 +1239,9 @@
       this.el = this.$el[0];
     },
 
-    // Set callbacks, where `this.events` is a hash of
+    // Set callbacks, where `this.users` is a hash of
     //
-    // *{"event selector": "callback"}*
+    // *{"user selector": "callback"}*
     //
     //     {
     //       'mousedown .title':  'edit',
@@ -1250,40 +1250,40 @@
     //     }
     //
     // pairs. Callbacks will be bound to the view, with `this` set properly.
-    // Uses event delegation for efficiency.
-    // Omitting the selector binds the event to `this.el`.
-    delegateEvents: function(events) {
-      if (!(events || (events = _.result(this, 'events')))) return this;
-      this.undelegateEvents();
-      for (var key in events) {
-        var method = events[key];
-        if (!_.isFunction(method)) method = this[events[key]];
+    // Uses user delegation for efficiency.
+    // Omitting the selector binds the user to `this.el`.
+    delegateUsers: function(users) {
+      if (!(users || (users = _.result(this, 'users')))) return this;
+      this.undelegateUsers();
+      for (var key in users) {
+        var method = users[key];
+        if (!_.isFunction(method)) method = this[users[key]];
         if (!method) continue;
-        var match = key.match(delegateEventSplitter);
+        var match = key.match(delegateUserSplitter);
         this.delegate(match[1], match[2], _.bind(method, this));
       }
       return this;
     },
 
-    // Add a single event listener to the view's element (or a child element
-    // using `selector`). This only works for delegate-able events: not `focus`,
+    // Add a single user listener to the view's element (or a child element
+    // using `selector`). This only works for delegate-able users: not `focus`,
     // `blur`, and not `change`, `submit`, and `reset` in Internet Explorer.
-    delegate: function(eventName, selector, listener) {
-      this.$el.on(eventName + '.delegateEvents' + this.cid, selector, listener);
+    delegate: function(userName, selector, listener) {
+      this.$el.on(userName + '.delegateUsers' + this.cid, selector, listener);
     },
 
-    // Clears all callbacks previously bound to the view by `delegateEvents`.
+    // Clears all callbacks previously bound to the view by `delegateUsers`.
     // You usually don't need to use this, but may wish to if you have multiple
     // Backbone views attached to the same DOM element.
-    undelegateEvents: function() {
-      if (this.$el) this.$el.off('.delegateEvents' + this.cid);
+    undelegateUsers: function() {
+      if (this.$el) this.$el.off('.delegateUsers' + this.cid);
       return this;
     },
 
-    // A finer-grained `undelegateEvents` for removing a single delegated event.
+    // A finer-grained `undelegateUsers` for removing a single delegated user.
     // `selector` and `listener` are both optional.
-    undelegate: function(eventName, selector, listener) {
-      this.$el.off(eventName + '.delegateEvents' + this.cid, selector, listener);
+    undelegate: function(userName, selector, listener) {
+      this.$el.off(userName + '.delegateUsers' + this.cid, selector, listener);
     },
 
     // Produces a DOM element to be assigned to your view. Exposed for
@@ -1412,7 +1412,7 @@
   // Backbone.Router
   // ---------------
 
-  // Routers map faux-URLs to actions, and fire events when routes are
+  // Routers map faux-URLs to actions, and fire users when routes are
   // matched. Creating a new one sets its `routes` hash, if not set statically.
   var Router = Backbone.Router = function(options) {
     options || (options = {});
@@ -1429,7 +1429,7 @@
   var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
 
   // Set up all inheritable **Backbone.Router** properties and methods.
-  _.extend(Router.prototype, Events, {
+  _.extend(Router.prototype, Users, {
 
     // Initialize is an empty function by default. Override it with your own
     // initialization logic.
@@ -1542,7 +1542,7 @@
   History.started = false;
 
   // Set up all inheritable **Backbone.History** properties and methods.
-  _.extend(History.prototype, Events, {
+  _.extend(History.prototype, Users, {
 
     // The default interval to poll for hash changes, if necessary, is
     // twenty times a second.
@@ -1643,8 +1643,8 @@
 
       }
 
-      // Proxy an iframe to handle location events if the browser doesn't
-      // support the `hashchange` event, HTML5 history, or the user wants
+      // Proxy an iframe to handle location users if the browser doesn't
+      // support the `hashchange` user, HTML5 history, or the user wants
       // `hashChange` but not `pushState`.
       if (!this._hasHashChange && this._wantsHashChange && !this._usePushState) {
         var iframe = document.createElement('iframe');
@@ -1659,8 +1659,8 @@
       }
 
       // Add a cross-platform `addEventListener` shim for older browsers.
-      var addEventListener = window.addEventListener || function (eventName, listener) {
-        return attachEvent('on' + eventName, listener);
+      var addEventListener = window.addEventListener || function (userName, listener) {
+        return attachUser('on' + userName, listener);
       };
 
       // Depending on whether we're using pushState or hashes, and whether
@@ -1680,8 +1680,8 @@
     // but possibly useful for unit testing Routers.
     stop: function() {
       // Add a cross-platform `removeEventListener` shim for older browsers.
-      var removeEventListener = window.removeEventListener || function (eventName, listener) {
-        return detachEvent('on' + eventName, listener);
+      var removeEventListener = window.removeEventListener || function (userName, listener) {
+        return detachUser('on' + userName, listener);
       };
 
       // Remove window listeners.
@@ -1854,7 +1854,7 @@
     throw new Error('A "url" property or function must be specified');
   };
 
-  // Wrap an optional error callback with a fallback error event.
+  // Wrap an optional error callback with a fallback error user.
   var wrapError = function(model, options) {
     var error = options.error;
     options.error = function(resp) {

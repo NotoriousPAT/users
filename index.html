@@ -3,36 +3,36 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Users</title>
+    <title>Appointments</title>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/defaults.css">
-    <link rel="stylesheet" href="css/users.css">
+    <link rel="stylesheet" href="css/events.css">
   </head>
   <body>
     <main class="main-content">
     </main>
 
-    <script id="user-edit" type="text/html">
+    <script id="event-edit" type="text/html">
       <header class="page-header">
-        <a class="secondary-action page-action" href="#users">&larr;</a>
+        <a class="secondary-action page-action" href="#events">&larr;</a>
         <h1 class="page-title"><%- m.title %></h1>
       </header>
 
-      <form class="user-form stack-form page-content">
+      <form class="event-form stack-form page-content">
         <div class="form-field">
-          <input name="id" type="text" placeholder="user id" value="<%- m.user.id %>"
+          <input name="id" type="text" placeholder="event id" value="<%- m.event.id %>"
             autofocus
             required
             pattern="[a-zA-Z0-9]+[a-zA-Z0-9\-]*"
             data-parsley-error-message="Ids must be alphanumeric">
         </div>
         <div class="form-field">
-          <input name="name" type="text" placeholder="user name" value="<%- m.user.name %>"
+          <input name="name" type="text" placeholder="event name" value="<%- m.event.name %>"
             pattern="[\w]+\W[\w]+" required
             data-parsley-error-message="Full name is required">
         </div>
         <div class="form-field">
-          <input name="email" type="email" placeholder="user email" value="<%- m.user.email %>" required>
+          <input name="email" type="email" placeholder="event email" value="<%- m.event.email %>" required>
         </div>
 
         <div class="form-field">
@@ -41,7 +41,7 @@
 
         <% if (m.isDeletable) { %>
           <div class="form-field">
-            <button class="delete-user btn btn-warning" type="button">Delete</button>
+            <button class="delete-event btn btn-warning" type="button">Delete</button>
           </div>
         <% } %>
       </form>
@@ -52,22 +52,22 @@
         <h1 class="page-title">404 not found</h1>
       </header>
       <div class="page-content stack-form">
-        <a href="#users" class="btn btn-primary">View all users</a>
+        <a href="#events" class="btn btn-primary">View all events</a>
       </div>
     </script>
 
-    <script id="user-list" type="text/html">
+    <script id="event-list" type="text/html">
       <header class="page-header">
-        <a class="primary-action page-action" href="#users/new">+</a>
-        <h1 class="page-title">Users</h1>
+        <a class="primary-action page-action" href="#events/new">+</a>
+        <h1 class="page-title">events</h1>
       </header>
 
-      <ul class="user-list page-content">
-        <% _.chain(m.users.values).sortBy('name').forEach(function (user) { %>
-        <li class="user">
-          <a class="user-link" href="#users/<%- user.id %>">
-            <span class="user-name"><%- user.name %></span>
-            <span class="user-email"><%- user.email %></span>
+      <ul class="event-list page-content">
+        <% _.chain(m.events.values).sortBy('name').forEach(function (event) { %>
+        <li class="event">
+          <a class="event-link" href="#event/<%- event.id %>">
+            <span class="event-name"><%- event.name %></span>
+            <span class="event-email"><%- event.email %></span>
           </a>
         </li>
         <% }) %>
@@ -83,12 +83,12 @@
     <script src="js/router.js"></script>
     <script src="js/goto.js"></script>
     <script src="js/show.js"></script>
-    <script src="js/user.js"></script>
+    <script src="js/event.js"></script>
     <script src="js/serialize-form.js"></script>
     <script src="js/object-store.js"></script>
-    <script src="js/users-controller.js"></script>
-    <script src="js/users-edit-controller.js"></script>
-    <script src="js/users-new-controller.js"></script>
+    <script src="js/events-controller.js"></script>
+    <script src="js/events-edit-controller.js"></script>
+    <script src="js/events-new-controller.js"></script>
     <script src="js/init.js"></script>
 
   </body>
