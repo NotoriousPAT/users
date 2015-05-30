@@ -29,6 +29,13 @@
   box-shadow: 0 0 1em #d6d5ca;
 }
 
+.fieldset {
+  margin: 1em 0;
+  border: 0;
+  padding: 0;
+  position: relative;
+}
+
 .page-content {
   padding: 1em;
   max-width: 400px;
